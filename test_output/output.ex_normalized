@@ -1,0 +1,25 @@
+defmodule(PLACEHOLDER_1) do
+  @doc "A comment here.\n"
+  def(hello(PLACEHOLDER_2 \\ "world")) do
+    "Hello, #{PLACEHOLDER_2}"
+  end
+
+  @spec add_then_subtract(integer(), integer(), integer()) :: integer()
+  def(add_then_subtract(PLACEHOLDER_3, PLACEHOLDER_4, PLACEHOLDER_5)) do
+    PLACEHOLDER_6 = PLACEHOLDER_3 + PLACEHOLDER_4
+    PLACEHOLDER_6 - PLACEHOLDER_5
+  end
+
+  def(check_case(PLACEHOLDER_7)) do
+    case(PLACEHOLDER_7) do
+      PLACEHOLDER_7 when is_bitstring(PLACEHOLDER_7) ->
+        :string
+
+      PLACEHOLDER_7 when is_number(PLACEHOLDER_7) ->
+        :number
+
+      PLACEHOLDER_7 when is_boolean(PLACEHOLDER_7) ->
+        :boolean
+    end
+  end
+end
