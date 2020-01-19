@@ -7,7 +7,8 @@ defmodule Representer.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      escript: escript()
     ]
   end
 
@@ -15,6 +16,12 @@ defmodule Representer.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp escript do
+    [
+      main_module: Representer.CLI
     ]
   end
 

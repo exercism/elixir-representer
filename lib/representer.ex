@@ -4,25 +4,27 @@ defmodule Representer do
   alias Representer.Mapping
 
   def process(file, code_output, mapping_output) do
-    {represented_ast, mapping} = represent(file)
+    {_represented_ast, mapping} = represent(file)
 
     output =
-      represented_ast
-      |> Macro.to_string()
-      |> Code.format_string!(locals_without_parens: [def: :*, defmodule: :*])
+      file
+      |> File.read!()
+      |> Code.format_string!(force_do_end_blocks: true)
       |> to_string()
 
     {mapping, output} =
       mapping.mappings
       |> Enum.reduce({mapping, output}, fn {term, placeholder}, {mapping, output} ->
+        str_term = term |> Atom.to_string()
         normalized = placeholder |> Atom.to_string() |> String.upcase()
         mapping = Mapping.change_mapping(mapping, term, normalized)
-        output = String.replace(output, placeholder |> Atom.to_string() , normalized)
+        re = Regex.compile!("([\[\{\(\s])(#{str_term})([\]\}\)\s\n\(),])")
+        output = Regex.replace(re, output, "\\1#{normalized}\\3")
 
         {mapping, output}
       end)
 
-    File.write!(code_output<>"_normalized", output)
+    File.write!(code_output, output)
     File.write!(mapping_output, to_string(mapping))
   end
 
@@ -50,6 +52,16 @@ defmodule Representer do
 
     module_alias = module_alias |> Tuple.delete_at(2) |> Tuple.append([mapped_term])
     args = [module_alias | (args |> tl)]
+    node = node |> Tuple.delete_at(2) |> Tuple.append(args)
+
+    {node, represented}
+  end
+
+  def exchange({:def, _, [{function_name, _, _} = function_head | _] = args} = node, represented) do
+    {:ok, represented, mapped_function_name} = Representer.Mapping.get_placeholder(represented, function_name)
+
+    function_head = function_head |> Tuple.delete_at(0) |> Tuple.insert_at(0, mapped_function_name)
+    args = [function_head | (args |> tl)]
     node = node |> Tuple.delete_at(2) |> Tuple.append(args)
 
     {node, represented}

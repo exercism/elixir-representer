@@ -8,7 +8,7 @@ defmodule HelloWorld do
 
   @spec add_then_subtract(integer(), integer(), integer()) :: integer()
   def add_then_subtract(n, a, s) do
-    total = n + a
+    total = n+a
     total - s
   end
 
@@ -19,4 +19,6 @@ defmodule HelloWorld do
       var when is_boolean(var) -> :boolean
     end
   end
+
+  def check_expand_do(), do: true
 end
