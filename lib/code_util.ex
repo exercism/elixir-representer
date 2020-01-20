@@ -62,8 +62,12 @@ defmodule CodeUtil do
   defp do_normalize_doc(<<>>, %{} = state), do: IO.iodata_to_binary(state.io_list)
 
   # Open doc
-  defp do_normalize_doc(<<"@doc \"\"\"", rest::binary>>, %{in_doc: false} = state), do: open_doc_normalization("@doc \"\"\"", rest, state)
-  defp do_normalize_doc(<<"@moduledoc \"\"\"", rest::binary>>, %{in_doc: false} = state), do: open_doc_normalization("@doc \"\"\"", rest, state)
+  @doc_opener "@doc \"\"\""
+  defp do_normalize_doc(<<@doc_opener, rest::binary>>, %{in_doc: false} = state), do: open_doc_normalization(@doc_opener, rest, state)
+
+  # Open moduledoc
+  @moduledoc_opener "@moduledoc \"\"\""
+  defp do_normalize_doc(<<@moduledoc_opener, rest::binary>>, %{in_doc: false} = state), do: open_doc_normalization(@moduledoc_opener, rest, state)
 
   # Close doc
   defp do_normalize_doc(<<"\"\"\"", rest::binary>>, %{in_doc: true} = state) do
