@@ -6,13 +6,14 @@ defmodule HelloWorld do
     "Hello, #{name}"
   end
 
+  # Comment
   @spec add_then_subtract(integer(), integer(), integer()) :: integer()
   def add_then_subtract(n, a, s) do
     total = n+a
     total - s
   end
 
-  def check_case(var) do
+  def check_case(var) do # Poorly placed Comment
     case var do
       var when is_bitstring(var) -> :string
       var when is_number(var) -> :number
