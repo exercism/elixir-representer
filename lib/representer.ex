@@ -11,6 +11,10 @@ defmodule Representer do
       |> File.read!()
       |> Code.format_string!(force_do_end_blocks: true)
       |> to_string()
+      |> CodeUtil.remove_comments()
+      |> CodeUtil.normalize_doc()
+      |> Code.format_string!(force_do_end_blocks: true)
+      |> to_string()
 
     {mapping, output} =
       mapping.mappings
