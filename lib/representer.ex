@@ -9,10 +9,13 @@ defmodule Representer do
     output =
       file
       |> File.read!()
+      # Format before to normalize file style
       |> Code.format_string!(force_do_end_blocks: true)
       |> to_string()
       |> CodeUtil.remove_comments()
       |> CodeUtil.normalize_doc()
+      # Format again to remove extra blank lines after removing commets and normalizing doc
+      # TODO: Possibly create a function in the CodeUtil module to remove extra whitespace
       |> Code.format_string!(force_do_end_blocks: true)
       |> to_string()
 
