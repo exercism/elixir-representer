@@ -1,5 +1,5 @@
 defmodule Representer.CLI do
-  @concatenated_file "concatenated.ex"
+  @concatenated_file "_concatenated.ex"
   @output_file "representation.txt"
   @output_mapping_file "mapping.json"
 

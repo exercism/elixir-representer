@@ -1,107 +1,120 @@
-{:defmodule, [],
+{:__block__, [],
  [
-   {:__aliases__, [], [:PLACEHOLDER_1]},
-   [
-     do: {:__block__, [],
+   {:defmodule, [],
+    [
+      {:__aliases__, [], [:PLACEHOLDER_1]},
       [
-        {:def, [],
+        do: {:__block__, [],
          [
-           {:PLACEHOLDER_2, [],
-            [{:\\, [], [{:PLACEHOLDER_3, [], nil}, "world"]}]},
-           [
-             do: {:<<>>, [],
+           {:def, [],
+            [
+              {:PLACEHOLDER_2, [],
+               [{:\\, [], [{:PLACEHOLDER_3, [], nil}, "world"]}]},
               [
-                "Hello, ",
-                {:"::", [],
+                do: {:<<>>, [],
                  [
-                   {{:., [], [Kernel, :to_string]}, [],
-                    [{:PLACEHOLDER_3, [], nil}]},
-                   {:binary, [binary_helper: true], nil}
+                   "Hello, ",
+                   {:"::", [],
+                    [
+                      {{:., [], [Kernel, :to_string]}, [],
+                       [{:PLACEHOLDER_3, [], nil}]},
+                      {:binary, [binary_helper: true], nil}
+                    ]}
                  ]}
-              ]}
-           ]
-         ]},
-        {:@, [],
-         [
-           {:spec, [],
-            [
-              {:"::", [],
-               [
-                 {:add_then_subtract, [],
-                  [{:integer, [], []}, {:integer, [], []}, {:integer, [], []}]},
-                 {:integer, [], []}
-               ]}
-            ]}
-         ]},
-        {:def, [],
-         [
-           {:PLACEHOLDER_4, [],
-            [
-              {:PLACEHOLDER_5, [], nil},
-              {:PLACEHOLDER_6, [], nil},
-              {:PLACEHOLDER_7, [], nil}
+              ]
             ]},
-           [
-             do: {:__block__, [],
+           {:@, [],
+            [
+              {:spec, [],
+               [
+                 {:"::", [],
+                  [
+                    {:add_then_subtract, [],
+                     [
+                       {:integer, [], []},
+                       {:integer, [], []},
+                       {:integer, [], []}
+                     ]},
+                    {:integer, [], []}
+                  ]}
+               ]}
+            ]},
+           {:def, [],
+            [
+              {:PLACEHOLDER_4, [],
+               [
+                 {:PLACEHOLDER_5, [], nil},
+                 {:PLACEHOLDER_6, [], nil},
+                 {:PLACEHOLDER_7, [], nil}
+               ]},
               [
-                {:=, [],
+                do: {:__block__, [],
                  [
-                   {:PLACEHOLDER_8, [], nil},
-                   {:+, [],
-                    [{:PLACEHOLDER_5, [], nil}, {:PLACEHOLDER_6, [], nil}]}
-                 ]},
-                {:-, [], [{:PLACEHOLDER_8, [], nil}, {:PLACEHOLDER_7, [], nil}]}
-              ]}
-           ]
-         ]},
-        {:def, [],
-         [
-           {:PLACEHOLDER_9, [], [{:PLACEHOLDER_10, [], nil}]},
-           [
-             do: {:case, [],
+                   {:=, [],
+                    [
+                      {:PLACEHOLDER_8, [], nil},
+                      {:+, [],
+                       [{:PLACEHOLDER_5, [], nil}, {:PLACEHOLDER_6, [], nil}]}
+                    ]},
+                   {:-, [],
+                    [{:PLACEHOLDER_8, [], nil}, {:PLACEHOLDER_7, [], nil}]}
+                 ]}
+              ]
+            ]},
+           {:def, [],
+            [
+              {:PLACEHOLDER_9, [], [{:PLACEHOLDER_10, [], nil}]},
               [
-                {:PLACEHOLDER_10, [], nil},
-                [
-                  do: [
-                    {:->, [],
-                     [
-                       [
-                         {:when, [],
+                do: {:case, [],
+                 [
+                   {:PLACEHOLDER_10, [], nil},
+                   [
+                     do: [
+                       {:->, [],
+                        [
                           [
-                            {:PLACEHOLDER_10, [], nil},
-                            {:is_bitstring, [], [{:PLACEHOLDER_10, [], nil}]}
-                          ]}
-                       ],
-                       :string
-                     ]},
-                    {:->, [],
-                     [
-                       [
-                         {:when, [],
+                            {:when, [],
+                             [
+                               {:PLACEHOLDER_10, [], nil},
+                               {:is_bitstring, [], [{:PLACEHOLDER_10, [], nil}]}
+                             ]}
+                          ],
+                          :string
+                        ]},
+                       {:->, [],
+                        [
                           [
-                            {:PLACEHOLDER_10, [], nil},
-                            {:is_number, [], [{:PLACEHOLDER_10, [], nil}]}
-                          ]}
-                       ],
-                       :number
-                     ]},
-                    {:->, [],
-                     [
-                       [
-                         {:when, [],
+                            {:when, [],
+                             [
+                               {:PLACEHOLDER_10, [], nil},
+                               {:is_number, [], [{:PLACEHOLDER_10, [], nil}]}
+                             ]}
+                          ],
+                          :number
+                        ]},
+                       {:->, [],
+                        [
                           [
-                            {:PLACEHOLDER_10, [], nil},
-                            {:is_boolean, [], [{:PLACEHOLDER_10, [], nil}]}
-                          ]}
-                       ],
-                       :boolean
-                     ]}
-                  ]
-                ]
-              ]}
-           ]
-         ]},
-        {:def, [], [{:PLACEHOLDER_11, [], []}, [do: true]]}
-      ]}
-   ]
+                            {:when, [],
+                             [
+                               {:PLACEHOLDER_10, [], nil},
+                               {:is_boolean, [], [{:PLACEHOLDER_10, [], nil}]}
+                             ]}
+                          ],
+                          :boolean
+                        ]}
+                     ]
+                   ]
+                 ]}
+              ]
+            ]},
+           {:def, [], [{:PLACEHOLDER_11, [], []}, [do: true]]}
+         ]}
+      ]
+    ]},
+   {:defmodule, [],
+    [
+      {:__aliases__, [], [:PLACEHOLDER_12]},
+      [do: {:def, [], [{:PLACEHOLDER_14, [], nil}, [do: :test]]}]
+    ]}
  ]}

@@ -27,3 +27,9 @@ defmodule HelloWorld do
 
   def check_expand_do(), do: true
 end
+
+defmodule TestMultiple do
+  def test do
+    :test
+  end
+end
