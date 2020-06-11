@@ -4,7 +4,7 @@ defmodule RepresenterTest do
   test "run" do
     Representer.process(
       "./test_data/hello_world.ex",
-      "./test_output/output.ex",
+      "./test_output/representation.txt",
       "./test_output/mapping.json"
     )
   end
