@@ -1,4 +1,8 @@
 defmodule HelloWorld do
+  @moduledoc """
+  A module comment here.
+  """
+
   @doc """
   A comment here.
   """
