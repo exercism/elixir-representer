@@ -39,6 +39,7 @@ defmodule Representer.CLI do
     Representer.process(
       Path.join(path, @concatenated_file),
       Path.join(path, @output_file),
-      Path.join(path, @output_mapping_file))
+      Path.join(path, @output_mapping_file)
+    )
   end
 end

@@ -34,7 +34,6 @@ defmodule Representer.Mapping do
 
       atom =
         "#{@placeholder}#{map.map_count}"
-        |> convert_mapping_to_type(type)
         |> String.to_atom()
 
       map = %{map | mappings: Map.put(map.mappings, term, atom)}
@@ -42,9 +41,6 @@ defmodule Representer.Mapping do
       {:ok, map, map.mappings[term]}
     end
   end
-
-  defp convert_mapping_to_type(s, :term), do: String.downcase(s)
-  defp convert_mapping_to_type(s, :module), do: String.capitalize(s)
 
   def change_mapping(%Mapping{} = m, term, new) do
     cond do

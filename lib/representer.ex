@@ -4,34 +4,9 @@ defmodule Representer do
   alias Representer.Mapping
 
   def process(file, code_output, mapping_output) do
-    {_represented_ast, mapping} = represent(file)
+    {represented_ast, mapping} = represent(file)
 
-    output =
-      file
-      |> File.read!()
-      # Format before to normalize file style
-      |> Code.format_string!(force_do_end_blocks: true)
-      |> to_string()
-      |> CodeUtil.remove_comments()
-      |> CodeUtil.normalize_doc()
-      # Format again to remove extra blank lines after removing commets and normalizing doc
-      # TODO: Possibly create a function in the CodeUtil module to remove extra whitespace
-      |> Code.format_string!(force_do_end_blocks: true)
-      |> to_string()
-
-    {mapping, output} =
-      mapping.mappings
-      |> Enum.reduce({mapping, output}, fn {term, placeholder}, {mapping, output} ->
-        str_term = term |> Atom.to_string()
-        normalized = placeholder |> Atom.to_string() |> String.upcase()
-        mapping = Mapping.change_mapping(mapping, term, normalized)
-        re = Regex.compile!("([\[\{\(\s])(#{str_term})([\]\}\)\s\n\(),])")
-        output = Regex.replace(re, output, "\\1#{normalized}\\3")
-
-        {mapping, output}
-      end)
-
-    File.write!(code_output, output)
+    File.write!(code_output, inspect(represented_ast, limit: :infinity, pretty: true))
     File.write!(mapping_output, to_string(mapping))
   end
 
@@ -41,6 +16,8 @@ defmodule Representer do
     |> Code.string_to_quoted!()
     |> Macro.prewalk(&add_meta/1)
     |> Macro.prewalk(Mapping.init(), &exchange/2)
+    |> Macro.prewalk(&drop_docstring/1)
+    |> Macro.prewalk(&drop_line_meta/1)
   end
 
   @doc """
@@ -86,4 +63,23 @@ defmodule Representer do
   end
 
   def exchange(node, represented), do: {node, represented}
+
+  def drop_docstring({:__block__, meta, children}) do
+    children =
+      children
+      |> Enum.reject(fn
+        {:@, _, [{:moduledoc, _, _}]} -> true
+        {:@, _, [{:doc, _, _}]} -> true
+        _ -> false
+      end)
+
+    {:__block__, meta, children}
+  end
+  def drop_docstring(node), do: node
+
+  def drop_line_meta({marker, metadata, children}) do
+    metadata = Keyword.drop(metadata, [:line])
+    {marker, metadata, children}
+  end
+  def drop_line_meta(node), do: node
 end
