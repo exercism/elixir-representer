@@ -1,6 +1,5 @@
 defmodule RepresenterTest do
   use ExUnit.Case
-  doctest Representer
 
   test "run" do
     Representer.process(
