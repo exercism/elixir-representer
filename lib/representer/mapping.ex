@@ -26,7 +26,7 @@ defmodule Representer.Mapping do
     %Mapping{}
   end
 
-  def get_placeholder(%Mapping{} = map, term, type \\ :term) do
+  def get_placeholder(%Mapping{} = map, term, _type \\ :term) do
     if map.mappings[term] do
       {:ok, map, map.mappings[term]}
     else
