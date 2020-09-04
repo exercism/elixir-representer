@@ -24,3 +24,6 @@ representer-*.tar
 
 /representer
 /bin/elixir_representer
+/test_output
+representation.txt
+mapping.json
