@@ -3,17 +3,7 @@ defmodule Representer.CLI do
   @output_file "representation.txt"
   @output_mapping_file "mapping.json"
 
-  def main(args \\ []) do
-    if length(args) != 2 do
-      IO.puts("representer requires two arguments: exercise slug, path to solution")
-      # exit({:shutdown, 1})
-    else
-      do_main(args)
-    end
-  end
-
-  def do_main(args) do
-    [slug, input_path, output_path] = args
+  def main([slug, input_path, output_path]) do
     exercise = slug |> ConvertSlug.kebab_to_snake()
 
     # save the cwd to go back later
@@ -41,5 +31,13 @@ defmodule Representer.CLI do
       Path.join(output_path, @output_file),
       Path.join(output_path, @output_mapping_file)
     )
+  end
+
+  def main(_) do
+    """
+    Usage
+    > exercism_representer <slug> <path to solution> <path to output>
+    """
+    |> IO.puts()
   end
 end
