@@ -11,7 +11,7 @@ defmodule Representer.CLI do
     output_path = Path.absname(output_path)
     concatenated_input_file_path = Path.join([input_path, @concatenated_file])
 
-    # get all .ex files
+    # get all .ex files, put the exercise file last
     files =
       File.ls!(input_path)
       |> Enum.filter(fn f -> String.ends_with?(f, ".ex") && f != @concatenated_file end)
