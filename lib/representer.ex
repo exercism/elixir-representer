@@ -31,21 +31,28 @@ defmodule Representer do
 
   def add_meta(node), do: node
 
-  def exchange({:defmodule, [line: x], [{:__aliases__, [line: x], [module_name]} = module_alias | _] = args} = node, represented) do
+  def exchange(
+        {:defmodule, [line: x],
+         [{:__aliases__, [line: x], [module_name]} = module_alias | _] = args} = node,
+        represented
+      ) do
     {:ok, represented, mapped_term} = Mapping.get_placeholder(represented, module_name, :module)
 
     module_alias = module_alias |> Tuple.delete_at(2) |> Tuple.append([mapped_term])
-    args = [module_alias | (args |> tl)]
+    args = [module_alias | args |> tl]
     node = node |> Tuple.delete_at(2) |> Tuple.append(args)
 
     {node, represented}
   end
 
   def exchange({:def, _, [{function_name, _, _} = function_head | _] = args} = node, represented) do
-    {:ok, represented, mapped_function_name} = Representer.Mapping.get_placeholder(represented, function_name)
+    {:ok, represented, mapped_function_name} =
+      Representer.Mapping.get_placeholder(represented, function_name)
 
-    function_head = function_head |> Tuple.delete_at(0) |> Tuple.insert_at(0, mapped_function_name)
-    args = [function_head | (args |> tl)]
+    function_head =
+      function_head |> Tuple.delete_at(0) |> Tuple.insert_at(0, mapped_function_name)
+
+    args = [function_head | args |> tl]
     node = node |> Tuple.delete_at(2) |> Tuple.append(args)
 
     {node, represented}
@@ -75,11 +82,13 @@ defmodule Representer do
 
     {:__block__, meta, children}
   end
+
   def drop_docstring(node), do: node
 
   def drop_line_meta({marker, metadata, children}) do
     metadata = Keyword.drop(metadata, [:line])
     {marker, metadata, children}
   end
+
   def drop_line_meta(node), do: node
 end

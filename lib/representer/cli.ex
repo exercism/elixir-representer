@@ -6,28 +6,24 @@ defmodule Representer.CLI do
   def main([slug, input_path, output_path]) do
     exercise = slug |> ConvertSlug.kebab_to_snake()
 
-    # save the cwd to go back later
-    cwd = File.cwd!()
+    # input_path should be a path to a mix project, so the solution is somewhere in /lib
+    input_path = Path.join([Path.absname(input_path), "lib"])
+    output_path = Path.absname(output_path)
+    concatenated_input_file_path = Path.join([input_path, @concatenated_file])
 
-    input_path |> Path.absname() |> File.cd!()
-    output_path |> Path.absname() |> File.cd!()
-
-    # get all .ex files, put the exercise file last
+    # get all .ex files
     files =
-      File.ls!()
-      |> Enum.filter(fn f -> String.ends_with?(f, ".ex") end)
+      File.ls!(input_path)
+      |> Enum.filter(fn f -> String.ends_with?(f, ".ex") && f != @concatenated_file end)
       |> Enum.sort_by(fn f -> f == "#{exercise}.ex" end)
 
     # join all of the files
-    concatenated = Enum.map_join(files, "\n", fn f -> File.read!(f) end)
+    concatenated = Enum.map_join(files, "\n", fn f -> File.read!(Path.join([input_path, f])) end)
 
-    File.write!(@concatenated_file, concatenated)
-
-    # go back to the previous directory
-    cwd |> File.cd!()
+    File.write!(concatenated_input_file_path, concatenated)
 
     Representer.process(
-      Path.join(input_path, @concatenated_file),
+      concatenated_input_file_path,
       Path.join(output_path, @output_file),
       Path.join(output_path, @output_mapping_file)
     )
