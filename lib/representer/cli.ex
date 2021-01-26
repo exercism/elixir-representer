@@ -13,12 +13,12 @@ defmodule Representer.CLI do
 
     # get all .ex files, put the exercise file last
     files =
-      File.ls!(input_path)
-      |> Enum.filter(fn f -> String.ends_with?(f, ".ex") && f != @concatenated_file end)
+      Path.wildcard(Path.join([input_path, "**", "*.ex"]))
+      |> Enum.filter(fn f -> !String.ends_with?(f, @concatenated_file) end)
       |> Enum.sort_by(fn f -> f == "#{exercise}.ex" end)
 
     # join all of the files
-    concatenated = Enum.map_join(files, "\n", fn f -> File.read!(Path.join([input_path, f])) end)
+    concatenated = Enum.map_join(files, "\n", fn f -> File.read!(f) end)
 
     File.write!(concatenated_input_file_path, concatenated)
 
