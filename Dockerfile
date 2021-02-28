@@ -1,4 +1,4 @@
-FROM elixir:1.10-alpine as builder
+FROM elixir:1.11-alpine as builder
 
 # Install SSL ca certificates
 RUN apk update && \
@@ -9,11 +9,6 @@ RUN apk update && \
 # Create appuser
 RUN adduser -D -g '' appuser
 
-# Get exercism's tooling_webserver
-RUN curl -L -o /usr/local/bin/tooling_webserver \
-  https://github.com/exercism/tooling-webserver/releases/download/0.10.0/tooling_webserver && \
-  chmod +x /usr/local/bin/tooling_webserver
-
 # Get the source code
 WORKDIR /elixir-representer
 COPY . .
@@ -21,7 +16,7 @@ COPY . .
 # Builds an escript bin/elixir_representer
 RUN ./bin/build.sh
 
-FROM elixir:1.10-alpine
+FROM elixir:1.11-alpine
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /usr/local/bin/tooling_webserver /usr/local/bin/tooling_webserver
