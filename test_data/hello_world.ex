@@ -10,6 +10,8 @@ defmodule HelloWorld do
     "Hello, #{name}"
   end
 
+  @typedoc "A type comment here."
+
   # Comment
   @spec add_then_subtract(integer(), integer(), integer()) :: integer()
   def add_then_subtract(n, a, s) do
