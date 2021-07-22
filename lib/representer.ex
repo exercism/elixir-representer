@@ -3,11 +3,12 @@ defmodule Representer do
 
   alias Representer.Mapping
 
-  def process(file, code_output, mapping_output) do
+  def process(file, code_output, mapping_output, notes_file) do
     {represented_ast, mapping} = represent(file)
 
     File.write!(code_output, Macro.to_string(represented_ast))
     File.write!(mapping_output, to_string(mapping))
+    File.write!(notes_file, notes())
   end
 
   def represent(file) do
@@ -91,4 +92,17 @@ defmodule Representer do
   end
 
   def drop_line_meta(node), do: node
+
+  def notes() do
+    """
+    Dear mentor! When adding a comment to a representation, DO NOT comment on:
+
+    - formatting,
+    - variable and module names,
+    - code comments,
+    - and documentation with `@doc` and `@moduledoc`.
+
+    All of those details are removed or normalized by the representer.
+    """
+  end
 end

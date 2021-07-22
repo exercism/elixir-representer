@@ -2,6 +2,7 @@ defmodule Representer.CLI do
   @concatenated_file "_concatenated.ex"
   @output_file "representation.txt"
   @output_mapping_file "mapping.json"
+  @notes_file "notes.md"
 
   def main([slug, input_path, output_path]) do
     exercise = slug |> ConvertSlug.kebab_to_snake()
@@ -25,7 +26,8 @@ defmodule Representer.CLI do
     Representer.process(
       concatenated_input_file_path,
       Path.join(output_path, @output_file),
-      Path.join(output_path, @output_mapping_file)
+      Path.join(output_path, @output_mapping_file),
+      Path.join(output_path, @notes_file)
     )
   end
 
