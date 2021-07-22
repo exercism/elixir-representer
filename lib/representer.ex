@@ -77,6 +77,7 @@ defmodule Representer do
       children
       |> Enum.reject(fn
         {:@, _, [{:moduledoc, _, _}]} -> true
+        {:@, _, [{:typedoc, _, _}]} -> true
         {:@, _, [{:doc, _, _}]} -> true
         _ -> false
       end)
@@ -100,7 +101,7 @@ defmodule Representer do
     - formatting,
     - variable and module names,
     - code comments,
-    - and documentation with `@doc` and `@moduledoc`.
+    - and documentation with `@doc`, `@moduledoc`, and `@typedoc`.
 
     All of those details are removed or normalized by the representer.
     """
