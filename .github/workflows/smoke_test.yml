@@ -1,0 +1,23 @@
+name: Smoke Test
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-20.04
+
+    container:
+      image: hexpm/elixir:1.12.1-erlang-24.0.1-ubuntu-focal-20210325
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install / Build Dependencies
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+
+      - name: Run Tests
+        run: |
+          mix test
