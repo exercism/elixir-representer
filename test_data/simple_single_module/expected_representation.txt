@@ -1,0 +1,5 @@
+defmodule(PLACEHOLDER_1) do
+  def(PLACEHOLDER_2(PLACEHOLDER_3 \\ "world")) do
+    "Hello, #{PLACEHOLDER_3}"
+  end
+end

@@ -6,7 +6,7 @@ defmodule Representer do
   def process(file, code_output, mapping_output) do
     {represented_ast, mapping} = represent(file)
 
-    File.write!(code_output, Macro.to_string(represented_ast))
+    File.write!(code_output, Macro.to_string(represented_ast) <> "\n")
     File.write!(mapping_output, to_string(mapping))
   end
 
