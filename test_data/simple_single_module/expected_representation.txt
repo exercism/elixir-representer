@@ -2,4 +2,7 @@ defmodule(PLACEHOLDER_1) do
   def(PLACEHOLDER_2(PLACEHOLDER_3 \\ "world")) do
     "Hello, #{PLACEHOLDER_3}"
   end
+  defp(PLACEHOLDER_4(PLACEHOLDER_3)) do
+    "Hi there... #{PLACEHOLDER_3}"
+  end
 end
