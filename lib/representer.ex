@@ -11,11 +11,16 @@ defmodule Representer do
   end
 
   def represent(file) do
-    file
-    |> File.read!()
-    |> Code.string_to_quoted!()
-    |> Macro.prewalk(&add_meta/1)
-    |> Macro.prewalk(Mapping.init(), &exchange/2)
+    {ast, mapping} =
+      file
+      |> File.read!()
+      |> Code.string_to_quoted!()
+      |> Macro.prewalk(&add_meta/1)
+      |> Macro.prewalk(Mapping.init(), &define_placeholders/2)
+
+    ast
+    # names in local function calls can only be exchanged after all names in function definitions were exchanged
+    |> Macro.prewalk(mapping, &use_existing_placeholders/2)
     |> Macro.prewalk(&drop_docstring/1)
     |> Macro.prewalk(&drop_line_meta/1)
   end
@@ -31,19 +36,19 @@ defmodule Representer do
 
   def add_meta(node), do: node
 
-  def exchange({_, meta, _} = node, represented) do
+  def define_placeholders({_, meta, _} = node, represented) do
     if meta[:skip] do
       {node, represented}
     else
-      do_exchange(node, represented)
+      do_define_placeholders(node, represented)
     end
   end
 
-  def exchange(node, represented) do
-    do_exchange(node, represented)
+  def define_placeholders(node, represented) do
+    do_define_placeholders(node, represented)
   end
 
-  defp do_exchange(
+  defp do_define_placeholders(
          {:defmodule, [line: x],
           [{:__aliases__, [line: x], [module_name]} = module_alias | _] = args} = node,
          represented
@@ -59,7 +64,7 @@ defmodule Representer do
 
   # function/macro/guard definition
   @def_ops [:def, :defp, :defmacro, :defmacrop, :defguard, :defguardp]
-  defp do_exchange({op, meta, args}, represented) when op in @def_ops do
+  defp do_define_placeholders({op, meta, args}, represented) when op in @def_ops do
     [{name, meta2, args2} | args_tail] = args
 
     {args, represented} =
@@ -84,14 +89,28 @@ defmodule Representer do
   end
 
   # variables
-  defp do_exchange({atom, meta, context} = node, represented)
+  # https://elixir-lang.org/getting-started/meta/quote-and-unquote.html
+  # "The third element is either a list of arguments for the function call or an atom. When this element is an atom, it means the tuple represents a variable."
+  defp do_define_placeholders({atom, meta, context}, represented)
        when is_atom(atom) and is_nil(context) do
     {:ok, represented, mapped_term} = Representer.Mapping.get_placeholder(represented, atom)
 
     {{mapped_term, meta, context}, represented}
   end
 
-  defp do_exchange(node, represented), do: {node, represented}
+  defp do_define_placeholders(node, represented), do: {node, represented}
+
+  # function calls
+  defp use_existing_placeholders({atom, meta, context}, represented)
+       when is_atom(atom) and is_list(context) do
+    placeholder = Representer.Mapping.get_existing_placeholder(represented, atom)
+    # if there is no placeholder for this name, that means it's not a local function call
+    atom = placeholder || atom
+
+    {{atom, meta, context}, represented}
+  end
+
+  defp use_existing_placeholders(node, represented), do: {node, represented}
 
   def drop_docstring({:__block__, meta, children}) do
     children =

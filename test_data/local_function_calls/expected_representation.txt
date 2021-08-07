@@ -3,18 +3,18 @@ defmodule(PLACEHOLDER_1) do
     "Hello, #{PLACEHOLDER_3}"
   end
   def(PLACEHOLDER_2()) do
-    hello("Alice")
+    PLACEHOLDER_2("Alice")
   end
   def(PLACEHOLDER_4(PLACEHOLDER_5)) do
-    do_reverse(PLACEHOLDER_5, [])
+    PLACEHOLDER_6(PLACEHOLDER_5, [])
   end
-  defp(do_reverse([], PLACEHOLDER_6)) do
-    PLACEHOLDER_6
+  defp(PLACEHOLDER_6([], PLACEHOLDER_7)) do
+    PLACEHOLDER_7
   end
-  defp(do_reverse([PLACEHOLDER_7 | PLACEHOLDER_8], PLACEHOLDER_6)) do
-    do_reverse(PLACEHOLDER_8, [PLACEHOLDER_7 | PLACEHOLDER_6])
+  defp(PLACEHOLDER_6([PLACEHOLDER_8 | PLACEHOLDER_9], PLACEHOLDER_7)) do
+    PLACEHOLDER_6(PLACEHOLDER_9, [PLACEHOLDER_8 | PLACEHOLDER_7])
   end
-  def(PLACEHOLDER_9(PLACEHOLDER_5)) do
+  def(PLACEHOLDER_10(PLACEHOLDER_5)) do
     Enum.reverse(PLACEHOLDER_5)
   end
 end
