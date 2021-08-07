@@ -1,5 +1,7 @@
 {
   "PLACEHOLDER_1": "User",
+  "PLACEHOLDER_10": "even?",
+  "PLACEHOLDER_11": "odd?",
   "PLACEHOLDER_2": "first_name",
   "PLACEHOLDER_3": "user",
   "PLACEHOLDER_4": "registered_in_last_quarter?",
