@@ -140,7 +140,7 @@ defmodule Representer do
         Representer.Mapping.get_existing_placeholder(represented, function_name)
       else
         # hack: assuming that if a module has no placeholder name, that means it's not being defined in this file
-        # this will break for aliases
+        # TODO: fix when dealing with aliases
         nil
       end
 
