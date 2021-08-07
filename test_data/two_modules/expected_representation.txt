@@ -23,7 +23,7 @@
     end
   end
   defmodule(PLACEHOLDER_12) do
-    def(PLACEHOLDER_14) do
+    def(PLACEHOLDER_13) do
       :test
     end
   end

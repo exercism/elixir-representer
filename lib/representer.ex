@@ -23,7 +23,7 @@ defmodule Representer do
   @doc """
   """
   def add_meta({:"::", _, [_, {:binary, meta, _} = bin] = args} = node) do
-    meta = Keyword.put(meta, :binary_helper, true)
+    meta = Keyword.put(meta, :skip, true)
     bin = Tuple.delete_at(bin, 1) |> Tuple.insert_at(1, meta)
     args = List.replace_at(args, 1, bin)
     _node = Tuple.delete_at(node, 2) |> Tuple.append(args)
@@ -31,11 +31,23 @@ defmodule Representer do
 
   def add_meta(node), do: node
 
-  def exchange(
-        {:defmodule, [line: x],
-         [{:__aliases__, [line: x], [module_name]} = module_alias | _] = args} = node,
-        represented
-      ) do
+  def exchange({_, meta, _} = node, represented) do
+    if meta[:skip] do
+      {node, represented}
+    else
+      do_exchange(node, represented)
+    end
+  end
+
+  def exchange(node, represented) do
+    do_exchange(node, represented)
+  end
+
+  defp do_exchange(
+         {:defmodule, [line: x],
+          [{:__aliases__, [line: x], [module_name]} = module_alias | _] = args} = node,
+         represented
+       ) do
     {:ok, represented, mapped_term} = Mapping.get_placeholder(represented, module_name, :module)
 
     module_alias = module_alias |> Tuple.delete_at(2) |> Tuple.append([mapped_term])
@@ -45,31 +57,41 @@ defmodule Representer do
     {node, represented}
   end
 
-  def exchange({:def, _, [{function_name, _, _} = function_head | _] = args} = node, represented) do
-    {:ok, represented, mapped_function_name} =
-      Representer.Mapping.get_placeholder(represented, function_name)
+  # function/macro/guard definition
+  @def_ops [:def, :defp, :defmacro, :defmacrop, :defguard, :defguardp]
+  defp do_exchange({op, meta, args}, represented) when op in @def_ops do
+    [{name, meta2, args2} | args_tail] = args
 
-    function_head =
-      function_head |> Tuple.delete_at(0) |> Tuple.insert_at(0, mapped_function_name)
+    {args, represented} =
+      if name == :when do
+        # function/macro/guard definition with a guard
+        [{name3, meta3, args3} | args2_tail] = args2
 
-    args = [function_head | args |> tl]
-    node = node |> Tuple.delete_at(2) |> Tuple.append(args)
+        {:ok, represented, mapped_name} = Representer.Mapping.get_placeholder(represented, name3)
+        meta2 = Keyword.put(meta2, :skip, true)
+        meta3 = Keyword.put(meta3, :skip, true)
 
+        {[{name, meta2, [{mapped_name, meta3, args3} | args2_tail]} | args_tail], represented}
+      else
+        {:ok, represented, mapped_name} = Representer.Mapping.get_placeholder(represented, name)
+        meta2 = Keyword.put(meta2, :skip, true)
+
+        {[{mapped_name, meta2, args2} | args_tail], represented}
+      end
+
+    node = {op, meta, args}
     {node, represented}
   end
 
-  def exchange({atom, meta, context} = node, represented)
-      when is_atom(atom) and is_nil(context) do
-    if meta[:binary_helper] do
-      {node, represented}
-    else
-      {:ok, represented, mapped_term} = Representer.Mapping.get_placeholder(represented, atom)
+  # variables
+  defp do_exchange({atom, meta, context} = node, represented)
+       when is_atom(atom) and is_nil(context) do
+    {:ok, represented, mapped_term} = Representer.Mapping.get_placeholder(represented, atom)
 
-      {{mapped_term, meta, context}, represented}
-    end
+    {{mapped_term, meta, context}, represented}
   end
 
-  def exchange(node, represented), do: {node, represented}
+  defp do_exchange(node, represented), do: {node, represented}
 
   def drop_docstring({:__block__, meta, children}) do
     children =
