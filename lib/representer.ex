@@ -28,7 +28,7 @@ defmodule Representer do
   @doc """
   """
   def add_meta({:"::", _, [_, {:binary, meta, _} = bin] = args} = node) do
-    meta = Keyword.put(meta, :skip, true)
+    meta = Keyword.put(meta, :visited?, true)
     bin = Tuple.delete_at(bin, 1) |> Tuple.insert_at(1, meta)
     args = List.replace_at(args, 1, bin)
     _node = Tuple.delete_at(node, 2) |> Tuple.append(args)
@@ -37,7 +37,7 @@ defmodule Representer do
   def add_meta(node), do: node
 
   def define_placeholders({_, meta, _} = node, represented) do
-    if meta[:skip] do
+    if meta[:visited?] do
       {node, represented}
     else
       do_define_placeholders(node, represented)
@@ -73,13 +73,13 @@ defmodule Representer do
         [{name3, meta3, args3} | args2_tail] = args2
 
         {:ok, represented, mapped_name} = Representer.Mapping.get_placeholder(represented, name3)
-        meta2 = Keyword.put(meta2, :skip, true)
-        meta3 = Keyword.put(meta3, :skip, true)
+        meta2 = Keyword.put(meta2, :visited?, true)
+        meta3 = Keyword.put(meta3, :visited?, true)
 
         {[{name, meta2, [{mapped_name, meta3, args3} | args2_tail]} | args_tail], represented}
       else
         {:ok, represented, mapped_name} = Representer.Mapping.get_placeholder(represented, name)
-        meta2 = Keyword.put(meta2, :skip, true)
+        meta2 = Keyword.put(meta2, :visited?, true)
 
         {[{mapped_name, meta2, args2} | args_tail], represented}
       end
@@ -91,8 +91,9 @@ defmodule Representer do
   # variables
   # https://elixir-lang.org/getting-started/meta/quote-and-unquote.html
   # "The third element is either a list of arguments for the function call or an atom. When this element is an atom, it means the tuple represents a variable."
+  @special_var_names [:__CALLER__, :__DIR__, :__ENV__, :__MODULE__, :__STACKTRACE__, :...]
   defp do_define_placeholders({atom, meta, context}, represented)
-       when is_atom(atom) and is_nil(context) do
+       when is_atom(atom) and is_nil(context) and atom not in @special_var_names do
     {:ok, represented, mapped_term} = Representer.Mapping.get_placeholder(represented, atom)
 
     {{mapped_term, meta, context}, represented}
@@ -100,17 +101,75 @@ defmodule Representer do
 
   defp do_define_placeholders(node, represented), do: {node, represented}
 
-  # function calls
-  defp use_existing_placeholders({atom, meta, context}, represented)
+  def use_existing_placeholders({_, meta, _} = node, represented) do
+    if meta[:visited?] do
+      {node, represented}
+    else
+      do_use_existing_placeholders(node, represented)
+    end
+  end
+
+  def use_existing_placeholders(node, represented) do
+    do_use_existing_placeholders(node, represented)
+  end
+
+  # local function calls
+  defp do_use_existing_placeholders({atom, meta, context}, represented)
        when is_atom(atom) and is_list(context) do
     placeholder = Representer.Mapping.get_existing_placeholder(represented, atom)
-    # if there is no placeholder for this name, that means it's not a local function call
+
+    # if there is no placeholder for this name, that means it's an imported or a standard library function/macro/special form
     atom = placeholder || atom
 
     {{atom, meta, context}, represented}
   end
 
-  defp use_existing_placeholders(node, represented), do: {node, represented}
+  # external function calls
+  defp do_use_existing_placeholders(
+         {{:., meta2, [{:__aliases__, meta3, [module_name]}, function_name]}, meta, context},
+         represented
+       )
+       when is_atom(module_name) and is_atom(function_name) do
+    placeholder_module_name =
+      Representer.Mapping.get_existing_placeholder(represented, module_name)
+
+    module_name = placeholder_module_name || module_name
+
+    placeholder_function_name =
+      if placeholder_module_name do
+        Representer.Mapping.get_existing_placeholder(represented, function_name)
+      else
+        # hack: assuming that if a module has no placeholder name, that means it's not being defined in this file
+        # this will break for aliases
+        nil
+      end
+
+    function_name = placeholder_function_name || function_name
+
+    meta2 = Keyword.put(meta2, :visited?, true)
+    meta3 = Keyword.put(meta3, :visited?, true)
+
+    {{{:., meta2, [{:__aliases__, meta3, [module_name]}, function_name]}, meta, context},
+     represented}
+  end
+
+  # external function calls via __MODULE__
+  defp do_use_existing_placeholders(
+         {{:., meta2, [{:__MODULE__, meta3, args3}, function_name]}, meta, context},
+         represented
+       )
+       when is_atom(function_name) do
+    placeholder_function_name =
+      Representer.Mapping.get_existing_placeholder(represented, function_name)
+
+    function_name = placeholder_function_name || function_name
+    meta2 = Keyword.put(meta2, :visited?, true)
+    meta3 = Keyword.put(meta3, :visited?, true)
+
+    {{{:., meta2, [{:__MODULE__, meta3, args3}, function_name]}, meta, context}, represented}
+  end
+
+  defp do_use_existing_placeholders(node, represented), do: {node, represented}
 
   def drop_docstring({:__block__, meta, children}) do
     children =

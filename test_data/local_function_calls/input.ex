@@ -19,4 +19,12 @@ defmodule AnythingAndEverything do
   def cheat_reverse(list) do
     Enum.reverse(list)
   end
+
+  def greetings() do
+    AnythingAndEverything.hello()
+  end
+
+  def greetings_with_a_name(name) do
+    __MODULE__.hello(name)
+  end
 end

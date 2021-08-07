@@ -17,4 +17,10 @@ defmodule(PLACEHOLDER_1) do
   def(PLACEHOLDER_10(PLACEHOLDER_5)) do
     Enum.reverse(PLACEHOLDER_5)
   end
+  def(PLACEHOLDER_11()) do
+    PLACEHOLDER_1."PLACEHOLDER_2"()
+  end
+  def(PLACEHOLDER_12(PLACEHOLDER_3)) do
+    __MODULE__."PLACEHOLDER_2"(PLACEHOLDER_3)
+  end
 end
