@@ -42,6 +42,10 @@ defmodule Representer.Mapping do
     end
   end
 
+  def get_existing_placeholder(%Mapping{} = map, term) do
+    map.mappings[term]
+  end
+
   def change_mapping(%Mapping{} = m, term, new) do
     cond do
       m.mappings[term] == nil ->

@@ -1,0 +1,25 @@
+defmodule(PLACEHOLDER_1) do
+  def(PLACEHOLDER_2(PLACEHOLDER_3)) do
+    PLACEHOLDER_3.first_name
+  end
+  defp(PLACEHOLDER_4(PLACEHOLDER_3)) do
+    true
+  end
+  defmacro(PLACEHOLDER_5) do
+    true
+  end
+  defmacrop(PLACEHOLDER_6) do
+    true
+  end
+  defguard(PLACEHOLDER_7(PLACEHOLDER_8) when is_integer(PLACEHOLDER_8) and rem(PLACEHOLDER_8, 2) == 0)
+  defguardp(PLACEHOLDER_9(PLACEHOLDER_8) when is_integer(PLACEHOLDER_8) and rem(PLACEHOLDER_8, 2) == 1)
+  def(PLACEHOLDER_10(PLACEHOLDER_8) when PLACEHOLDER_7(PLACEHOLDER_8)) do
+    true
+  end
+  def(PLACEHOLDER_10(PLACEHOLDER_8)) do
+    false
+  end
+  def(PLACEHOLDER_11(PLACEHOLDER_8)) do
+    PLACEHOLDER_9(PLACEHOLDER_8)
+  end
+end
