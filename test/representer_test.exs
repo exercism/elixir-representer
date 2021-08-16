@@ -13,6 +13,18 @@ defmodule RepresenterTest do
     test "two_modules" do
       test_directory("two_modules")
     end
+
+    test "macros_and_guards" do
+      test_directory("macros_and_guards")
+    end
+
+    test "local_function_calls" do
+      test_directory("local_function_calls")
+    end
+
+    test "special_variables" do
+      test_directory("special_variables")
+    end
   end
 
   defp test_directory(dir) do
