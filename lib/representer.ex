@@ -23,6 +23,7 @@ defmodule Representer do
     |> Macro.prewalk(mapping, &use_existing_placeholders/2)
     |> Macro.prewalk(&drop_docstring/1)
     |> Macro.prewalk(&drop_line_meta/1)
+    |> Macro.prewalk(&add_parentheses_in_pipes/1)
   end
 
   @doc """
@@ -192,4 +193,10 @@ defmodule Representer do
   end
 
   def drop_line_meta(node), do: node
+
+  def add_parentheses_in_pipes({:|>, meta, [input, {name, meta2, atom}]}) when is_atom(atom) do
+    {:|>, meta, [input, {name, meta2, []}]}
+  end
+
+  def add_parentheses_in_pipes(node), do: node
 end
