@@ -25,6 +25,10 @@ defmodule RepresenterTest do
     test "special_variables" do
       test_directory("special_variables")
     end
+
+    test "parentheses_in_pipes" do
+      test_directory("parentheses_in_pipes")
+    end
   end
 
   defp test_directory(dir) do
