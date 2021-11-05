@@ -7,5 +7,6 @@ defmodule(Placeholder_1) do
   end
   defmacro(placeholder_7()) do
     placeholder_2(__CALLER__, __STACKTRACE__)
+    placeholder_8 = 3
   end
 end

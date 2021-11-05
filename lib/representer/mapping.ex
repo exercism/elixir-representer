@@ -64,6 +64,6 @@ defmodule Representer.Mapping do
 
   defp capitalized?(term) do
     first = term |> to_string |> String.first()
-    first == String.upcase(first)
+    first != "_" and first == String.upcase(first)
   end
 end
