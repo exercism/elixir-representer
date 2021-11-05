@@ -1,29 +1,29 @@
 (
-  defmodule(PLACEHOLDER_1) do
-    def(PLACEHOLDER_2(PLACEHOLDER_3 \\ "world")) do
-      "Hello, #{PLACEHOLDER_3}"
+  defmodule(Placeholder_1) do
+    def(placeholder_2(placeholder_3 \\ "world")) do
+      "Hello, #{placeholder_3}"
     end
-    @spec(PLACEHOLDER_4(integer(), integer(), integer()) :: integer())
-    def(PLACEHOLDER_4(PLACEHOLDER_5, PLACEHOLDER_6, PLACEHOLDER_7)) do
-      PLACEHOLDER_8 = PLACEHOLDER_5 + PLACEHOLDER_6
-      PLACEHOLDER_8 - PLACEHOLDER_7
+    @spec(placeholder_4(integer(), integer(), integer()) :: integer())
+    def(placeholder_4(placeholder_5, placeholder_6, placeholder_7)) do
+      placeholder_8 = placeholder_5 + placeholder_6
+      placeholder_8 - placeholder_7
     end
-    def(PLACEHOLDER_9(PLACEHOLDER_10)) do
-      case(PLACEHOLDER_10) do
-        PLACEHOLDER_10 when is_bitstring(PLACEHOLDER_10) ->
+    def(placeholder_9(placeholder_10)) do
+      case(placeholder_10) do
+        placeholder_10 when is_bitstring(placeholder_10) ->
           :string
-        PLACEHOLDER_10 when is_number(PLACEHOLDER_10) ->
+        placeholder_10 when is_number(placeholder_10) ->
           :number
-        PLACEHOLDER_10 when is_boolean(PLACEHOLDER_10) ->
+        placeholder_10 when is_boolean(placeholder_10) ->
           :boolean
       end
     end
-    def(PLACEHOLDER_11()) do
+    def(placeholder_11()) do
       true
     end
   end
-  defmodule(PLACEHOLDER_12) do
-    def(PLACEHOLDER_13) do
+  defmodule(Placeholder_12) do
+    def(placeholder_13) do
       :test
     end
   end

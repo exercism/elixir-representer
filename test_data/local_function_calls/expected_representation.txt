@@ -1,26 +1,26 @@
-defmodule(PLACEHOLDER_1) do
-  def(PLACEHOLDER_2(PLACEHOLDER_3)) do
-    "Hello, #{PLACEHOLDER_3}"
+defmodule(Placeholder_1) do
+  def(placeholder_2(placeholder_3)) do
+    "Hello, #{placeholder_3}"
   end
-  def(PLACEHOLDER_2()) do
-    PLACEHOLDER_2("Alice")
+  def(placeholder_2()) do
+    placeholder_2("Alice")
   end
-  def(PLACEHOLDER_4(PLACEHOLDER_5)) do
-    PLACEHOLDER_6(PLACEHOLDER_5, [])
+  def(placeholder_4(placeholder_5)) do
+    placeholder_6(placeholder_5, [])
   end
-  defp(PLACEHOLDER_6([], PLACEHOLDER_7)) do
-    PLACEHOLDER_7
+  defp(placeholder_6([], placeholder_7)) do
+    placeholder_7
   end
-  defp(PLACEHOLDER_6([PLACEHOLDER_8 | PLACEHOLDER_9], PLACEHOLDER_7)) do
-    PLACEHOLDER_6(PLACEHOLDER_9, [PLACEHOLDER_8 | PLACEHOLDER_7])
+  defp(placeholder_6([placeholder_8 | placeholder_9], placeholder_7)) do
+    placeholder_6(placeholder_9, [placeholder_8 | placeholder_7])
   end
-  def(PLACEHOLDER_10(PLACEHOLDER_5)) do
-    Enum.reverse(PLACEHOLDER_5)
+  def(placeholder_10(placeholder_5)) do
+    Enum.reverse(placeholder_5)
   end
-  def(PLACEHOLDER_11()) do
-    PLACEHOLDER_1."PLACEHOLDER_2"()
+  def(placeholder_11()) do
+    Placeholder_1.placeholder_2()
   end
-  def(PLACEHOLDER_12(PLACEHOLDER_3)) do
-    __MODULE__."PLACEHOLDER_2"(PLACEHOLDER_3)
+  def(placeholder_12(placeholder_3)) do
+    __MODULE__.placeholder_2(placeholder_3)
   end
 end

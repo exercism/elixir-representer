@@ -3,7 +3,8 @@ defmodule Representer.Mapping do
 
   alias __MODULE__, as: Mapping
 
-  @placeholder "PLACEHOLDER_"
+  @module_placeholder "Placeholder_"
+  @function_placeholder "placeholder_"
 
   defimpl String.Chars, for: __MODULE__ do
     def to_string(map) do
@@ -32,9 +33,14 @@ defmodule Representer.Mapping do
     else
       map = %{map | map_count: map.map_count + 1}
 
-      atom =
-        "#{@placeholder}#{map.map_count}"
-        |> String.to_atom()
+      placeholder =
+        if capitalized?(term) do
+          @module_placeholder
+        else
+          @function_placeholder
+        end
+
+      atom = "#{placeholder}#{map.map_count}" |> String.to_atom()
 
       map = %{map | mappings: Map.put(map.mappings, term, atom)}
 
@@ -54,5 +60,10 @@ defmodule Representer.Mapping do
       true ->
         %{m | mappings: Map.put(m.mappings, term, new)}
     end
+  end
+
+  defp capitalized?(term) do
+    first = term |> to_string |> String.first()
+    first == String.upcase(first)
   end
 end

@@ -1,14 +1,14 @@
-defmodule(PLACEHOLDER_1) do
-  def(PLACEHOLDER_2(PLACEHOLDER_3, PLACEHOLDER_4, PLACEHOLDER_5)) do
-    PLACEHOLDER_3 |> PLACEHOLDER_4() |> PLACEHOLDER_5()
+defmodule(Placeholder_1) do
+  def(placeholder_2(placeholder_3, placeholder_4, placeholder_5)) do
+    placeholder_3 |> placeholder_4() |> placeholder_5()
   end
-  def(PLACEHOLDER_6(PLACEHOLDER_3, PLACEHOLDER_4, PLACEHOLDER_5)) do
-    PLACEHOLDER_3 |> PLACEHOLDER_4() |> PLACEHOLDER_5()
+  def(placeholder_6(placeholder_3, placeholder_4, placeholder_5)) do
+    placeholder_3 |> placeholder_4() |> placeholder_5()
   end
-  def(PLACEHOLDER_7(PLACEHOLDER_3, PLACEHOLDER_4, PLACEHOLDER_5)) do
-    PLACEHOLDER_3 |> PLACEHOLDER_4() |> PLACEHOLDER_5()
+  def(placeholder_7(placeholder_3, placeholder_4, placeholder_5)) do
+    placeholder_3 |> placeholder_4() |> placeholder_5()
   end
-  def(PLACEHOLDER_8(PLACEHOLDER_3, PLACEHOLDER_4, PLACEHOLDER_5)) do
-    PLACEHOLDER_3 |> PLACEHOLDER_4() |> PLACEHOLDER_5()
+  def(placeholder_8(placeholder_3, placeholder_4, placeholder_5)) do
+    placeholder_3 |> placeholder_4() |> placeholder_5()
   end
 end

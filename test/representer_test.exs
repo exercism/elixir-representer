@@ -36,6 +36,7 @@ defmodule RepresenterTest do
     File.mkdir_p!(output_directory)
 
     input = Path.join(["./test_data", dir, "input.ex"])
+    assert {:ok, _} = input |> File.read!() |> Code.string_to_quoted()
 
     expected_representation = Path.join(["./test_data", dir, "expected_representation.txt"])
     expected_mapping = Path.join(["./test_data", dir, "expected_mapping.json"])
@@ -47,5 +48,6 @@ defmodule RepresenterTest do
 
     assert File.read!(output_representation) == File.read!(expected_representation)
     assert File.read!(output_mapping) == File.read!(expected_mapping)
+    assert {:ok, _} = output_representation |> File.read!() |> Code.string_to_quoted()
   end
 end

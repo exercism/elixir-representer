@@ -1,10 +1,10 @@
 {
-  "PLACEHOLDER_1": "AnythingAndEverything",
-  "PLACEHOLDER_2": "pipe_one",
-  "PLACEHOLDER_3": "a",
-  "PLACEHOLDER_4": "b",
-  "PLACEHOLDER_5": "c",
-  "PLACEHOLDER_6": "pipe_two",
-  "PLACEHOLDER_7": "pipe_three",
-  "PLACEHOLDER_8": "pipe_four"
+  "Placeholder_1": "AnythingAndEverything",
+  "placeholder_2": "pipe_one",
+  "placeholder_3": "a",
+  "placeholder_4": "b",
+  "placeholder_5": "c",
+  "placeholder_6": "pipe_two",
+  "placeholder_7": "pipe_three",
+  "placeholder_8": "pipe_four"
 }

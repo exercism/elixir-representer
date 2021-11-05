@@ -1,11 +1,11 @@
-defmodule(PLACEHOLDER_1) do
-  def(PLACEHOLDER_2(PLACEHOLDER_3, PLACEHOLDER_4)) do
-    ... = PLACEHOLDER_3
-    PLACEHOLDER_5 = %__MODULE__{}
+defmodule(Placeholder_1) do
+  def(placeholder_2(placeholder_3, placeholder_4)) do
+    ... = placeholder_3
+    placeholder_5 = %__MODULE__{}
     :math.pow(__DIR__)
-    PLACEHOLDER_6.(__ENV__)
+    placeholder_6.(__ENV__)
   end
-  defmacro(PLACEHOLDER_7()) do
-    PLACEHOLDER_2(__CALLER__, __STACKTRACE__)
+  defmacro(placeholder_7()) do
+    placeholder_2(__CALLER__, __STACKTRACE__)
   end
 end
