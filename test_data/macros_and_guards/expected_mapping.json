@@ -1,13 +1,13 @@
 {
-  "PLACEHOLDER_1": "User",
-  "PLACEHOLDER_10": "even?",
-  "PLACEHOLDER_11": "odd?",
-  "PLACEHOLDER_2": "first_name",
-  "PLACEHOLDER_3": "user",
-  "PLACEHOLDER_4": "registered_in_last_quarter?",
-  "PLACEHOLDER_5": "validate_user!",
-  "PLACEHOLDER_6": "do_validate_user",
-  "PLACEHOLDER_7": "is_even",
-  "PLACEHOLDER_8": "term",
-  "PLACEHOLDER_9": "is_odd"
+  "Placeholder_1": "User",
+  "placeholder_10": "even?",
+  "placeholder_11": "odd?",
+  "placeholder_2": "first_name",
+  "placeholder_3": "user",
+  "placeholder_4": "registered_in_last_quarter?",
+  "placeholder_5": "validate_user!",
+  "placeholder_6": "do_validate_user",
+  "placeholder_7": "is_even",
+  "placeholder_8": "term",
+  "placeholder_9": "is_odd"
 }

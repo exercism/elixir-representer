@@ -8,5 +8,6 @@ defmodule AnythingAndEverything do
 
   defmacro foo() do
     some_function(__CALLER__, __STACKTRACE__)
+    _ignored = 3
   end
 end

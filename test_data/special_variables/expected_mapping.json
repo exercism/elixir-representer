@@ -1,9 +1,10 @@
 {
-  "PLACEHOLDER_1": "AnythingAndEverything",
-  "PLACEHOLDER_2": "some_function",
-  "PLACEHOLDER_3": "parameter1",
-  "PLACEHOLDER_4": "parameter2",
-  "PLACEHOLDER_5": "user",
-  "PLACEHOLDER_6": "some_value",
-  "PLACEHOLDER_7": "foo"
+  "Placeholder_1": "AnythingAndEverything",
+  "placeholder_2": "some_function",
+  "placeholder_3": "parameter1",
+  "placeholder_4": "parameter2",
+  "placeholder_5": "user",
+  "placeholder_6": "some_value",
+  "placeholder_7": "foo",
+  "placeholder_8": "_ignored"
 }
