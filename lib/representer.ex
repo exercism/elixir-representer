@@ -92,10 +92,10 @@ defmodule Representer do
   # variables
   # https://elixir-lang.org/getting-started/meta/quote-and-unquote.html
   # "The third element is either a list of arguments for the function call or an atom. When this element is an atom, it means the tuple represents a variable."
-  @special_var_names [:__CALLER__, :__DIR__, :__ENV__, :__MODULE__, :__STACKTRACE__, :...]
+  @special_var_names [:__CALLER__, :__DIR__, :__ENV__, :__MODULE__, :__STACKTRACE__, :..., :_]
   defp do_define_placeholders({atom, meta, context}, represented)
        when is_atom(atom) and is_nil(context) and atom not in @special_var_names do
-    {:ok, represented, mapped_term} = Representer.Mapping.get_placeholder(represented, atom)
+    {:ok, represented, mapped_term} = Mapping.get_placeholder(represented, atom)
 
     {{mapped_term, meta, context}, represented}
   end

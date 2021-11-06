@@ -5,7 +5,7 @@ defmodule(Placeholder_1) do
     :math.pow(__DIR__)
     placeholder_6.(__ENV__)
   end
-  defmacro(placeholder_7()) do
+  defmacro(placeholder_7(_)) do
     placeholder_2(__CALLER__, __STACKTRACE__)
     placeholder_8 = 3
   end
