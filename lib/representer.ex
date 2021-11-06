@@ -4,16 +4,18 @@ defmodule Representer do
   alias Representer.Mapping
 
   def process(file, code_output, mapping_output) do
-    {represented_ast, mapping} = represent(file)
+    {represented_ast, mapping} =
+      file
+      |> File.read!()
+      |> represent
 
     File.write!(code_output, Macro.to_string(represented_ast) <> "\n")
     File.write!(mapping_output, to_string(mapping))
   end
 
-  def represent(file) do
+  def represent(code) do
     {ast, mapping} =
-      file
-      |> File.read!()
+      code
       |> Code.string_to_quoted!()
       |> Macro.prewalk(&add_meta/1)
       |> Macro.prewalk(Mapping.init(), &define_placeholders/2)
@@ -49,17 +51,23 @@ defmodule Representer do
     do_define_placeholders(node, represented)
   end
 
+  # module definition
   defp do_define_placeholders(
-         {:defmodule, [line: x],
-          [{:__aliases__, [line: x], [module_name]} = module_alias | _] = args} = node,
+         {:defmodule, meta1, [{:__aliases__, meta2, module_name}, content]},
          represented
        ) do
-    {:ok, represented, mapped_term} = Mapping.get_placeholder(represented, module_name, :module)
+    {:ok, represented, names} = Mapping.get_placeholder(represented, module_name)
+    node = {:defmodule, meta1, [{:__aliases__, meta2, names}, content]}
+    {node, represented}
+  end
 
-    module_alias = module_alias |> Tuple.delete_at(2) |> Tuple.append([mapped_term])
-    args = [module_alias | args |> tl]
-    node = node |> Tuple.delete_at(2) |> Tuple.append(args)
-
+  # module alias
+  defp do_define_placeholders(
+         {:alias, meta, [module, [as: {:__aliases__, meta2, module_alias}]]},
+         represented
+       ) do
+    {:ok, represented, names} = Mapping.get_placeholder(represented, module_alias)
+    node = {:alias, meta, [module, [as: {:__aliases__, meta2, names}]]}
     {node, represented}
   end
 
@@ -73,13 +81,13 @@ defmodule Representer do
         # function/macro/guard definition with a guard
         [{name3, meta3, args3} | args2_tail] = args2
 
-        {:ok, represented, mapped_name} = Representer.Mapping.get_placeholder(represented, name3)
+        {:ok, represented, mapped_name} = Mapping.get_placeholder(represented, name3)
         meta2 = Keyword.put(meta2, :visited?, true)
         meta3 = Keyword.put(meta3, :visited?, true)
 
         {[{name, meta2, [{mapped_name, meta3, args3} | args2_tail]} | args_tail], represented}
       else
-        {:ok, represented, mapped_name} = Representer.Mapping.get_placeholder(represented, name)
+        {:ok, represented, mapped_name} = Mapping.get_placeholder(represented, name)
         meta2 = Keyword.put(meta2, :visited?, true)
 
         {[{mapped_name, meta2, args2} | args_tail], represented}
@@ -114,10 +122,23 @@ defmodule Representer do
     do_use_existing_placeholders(node, represented)
   end
 
+  # module names
+  defp do_use_existing_placeholders({:__aliases__, meta, module_name}, represented)
+       when is_list(module_name) do
+    module_name =
+      Enum.map(
+        module_name,
+        &(Mapping.get_existing_placeholder(represented, &1) || &1)
+      )
+
+    meta = Keyword.put(meta, :visited?, true)
+    {{:__aliases__, meta, module_name}, represented}
+  end
+
   # local function calls
   defp do_use_existing_placeholders({atom, meta, context}, represented)
        when is_atom(atom) and is_list(context) do
-    placeholder = Representer.Mapping.get_existing_placeholder(represented, atom)
+    placeholder = Mapping.get_existing_placeholder(represented, atom)
 
     # if there is no placeholder for this name, that means it's an imported or a standard library function/macro/special form
     atom = placeholder || atom
@@ -127,20 +148,21 @@ defmodule Representer do
 
   # external function calls
   defp do_use_existing_placeholders(
-         {{:., meta2, [{:__aliases__, meta3, [module_name]}, function_name]}, meta, context},
+         {{:., meta2, [{:__aliases__, _, module_name} = module, function_name]}, meta, context},
          represented
        )
-       when is_atom(module_name) and is_atom(function_name) do
-    placeholder_module_name =
-      Representer.Mapping.get_existing_placeholder(represented, module_name)
+       when is_list(module_name) and is_atom(function_name) do
+    {{_, _, new_module_name} = module, _} = do_use_existing_placeholders(module, represented)
 
-    module_name = placeholder_module_name || module_name
+    all_replaced? =
+      Enum.zip_with(module_name, new_module_name, &(&1 != &2))
+      |> Enum.all?()
 
     placeholder_function_name =
-      if placeholder_module_name do
-        Representer.Mapping.get_existing_placeholder(represented, function_name)
+      if all_replaced? do
+        Mapping.get_existing_placeholder(represented, function_name)
       else
-        # hack: assuming that if a module has no placeholder name, that means it's not being defined in this file
+        # hack: assuming that if a module has no complete placeholder name, that means it's not being defined in this file
         # TODO: fix when dealing with aliases
         nil
       end
@@ -148,10 +170,8 @@ defmodule Representer do
     function_name = placeholder_function_name || function_name
 
     meta2 = Keyword.put(meta2, :visited?, true)
-    meta3 = Keyword.put(meta3, :visited?, true)
 
-    {{{:., meta2, [{:__aliases__, meta3, [module_name]}, function_name]}, meta, context},
-     represented}
+    {{{:., meta2, [module, function_name]}, meta, context}, represented}
   end
 
   # external function calls via __MODULE__
@@ -160,8 +180,7 @@ defmodule Representer do
          represented
        )
        when is_atom(function_name) do
-    placeholder_function_name =
-      Representer.Mapping.get_existing_placeholder(represented, function_name)
+    placeholder_function_name = Mapping.get_existing_placeholder(represented, function_name)
 
     function_name = placeholder_function_name || function_name
     meta2 = Keyword.put(meta2, :visited?, true)
