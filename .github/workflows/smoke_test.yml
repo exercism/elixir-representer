@@ -10,7 +10,7 @@ jobs:
       image: hexpm/elixir:1.12.1-erlang-24.0.1-ubuntu-focal-20210325
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579
 
       - name: Install / Build Dependencies
         run: |
