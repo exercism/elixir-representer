@@ -27,7 +27,18 @@ defmodule Representer.Mapping do
     %Mapping{}
   end
 
-  def get_placeholder(%Mapping{} = map, term, _type \\ :term) do
+  def get_placeholder(%Mapping{} = map, terms) when is_list(terms) do
+    {map, names} =
+      Enum.reduce(terms, {map, []}, fn
+        name, {map, names} ->
+          {:ok, map, name} = Mapping.get_placeholder(map, name)
+          {map, [name | names]}
+      end)
+
+    {:ok, map, Enum.reverse(names)}
+  end
+
+  def get_placeholder(%Mapping{} = map, term) do
     if map.mappings[term] do
       {:ok, map, map.mappings[term]}
     else

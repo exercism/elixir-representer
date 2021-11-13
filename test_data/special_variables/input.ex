@@ -6,7 +6,7 @@ defmodule AnythingAndEverything do
     some_value.(__ENV__)
   end
 
-  defmacro foo() do
+  defmacro foo(_) do
     some_function(__CALLER__, __STACKTRACE__)
     _ignored = 3
   end
