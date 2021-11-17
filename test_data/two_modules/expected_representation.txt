@@ -1,10 +1,10 @@
 (
-  defmodule(Placeholder_1) do
-    def(placeholder_2(placeholder_3 \\ "world")) do
-      "Hello, #{placeholder_3}"
+  defmodule(Placeholder_2) do
+    def(placeholder_3(placeholder_4 \\ "world")) do
+      "Hello, #{placeholder_4}"
     end
-    @spec(placeholder_4(integer(), integer(), integer()) :: integer())
-    def(placeholder_4(placeholder_5, placeholder_6, placeholder_7)) do
+    @spec(placeholder_1(integer, integer, integer) :: integer)
+    def(placeholder_1(placeholder_5, placeholder_6, placeholder_7)) do
       placeholder_8 = placeholder_5 + placeholder_6
       placeholder_8 - placeholder_7
     end
