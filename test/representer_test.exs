@@ -29,6 +29,7 @@ defmodule RepresenterTest do
     test "parentheses_in_pipes" do
       test_directory("parentheses_in_pipes")
     end
+
     test "modules" do
       test_directory("modules")
     end

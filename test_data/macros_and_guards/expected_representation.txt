@@ -1,25 +1,32 @@
-defmodule(Placeholder_1) do
-  def(placeholder_2(placeholder_3)) do
+defmodule Placeholder_1 do
+  def placeholder_2(placeholder_3) do
     placeholder_3.first_name
   end
-  defp(placeholder_4(placeholder_3)) do
+
+  defp placeholder_4(placeholder_3) do
     true
   end
-  defmacro(placeholder_5) do
+
+  defmacro placeholder_5 do
     true
   end
-  defmacrop(placeholder_6) do
+
+  defmacrop placeholder_6 do
     true
   end
-  defguard(placeholder_7(placeholder_8) when is_integer(placeholder_8) and rem(placeholder_8, 2) == 0)
-  defguardp(placeholder_9(placeholder_8) when is_integer(placeholder_8) and rem(placeholder_8, 2) == 1)
-  def(placeholder_10(placeholder_8) when placeholder_7(placeholder_8)) do
+
+  defguard placeholder_7(placeholder_8) when is_integer(placeholder_8) and rem(placeholder_8, 2) == 0
+  defguardp placeholder_9(placeholder_8) when is_integer(placeholder_8) and rem(placeholder_8, 2) == 1
+
+  def placeholder_10(placeholder_8) when placeholder_7(placeholder_8) do
     true
   end
-  def(placeholder_10(placeholder_8)) do
+
+  def placeholder_10(placeholder_8) do
     false
   end
-  def(placeholder_11(placeholder_8)) do
+
+  def placeholder_11(placeholder_8) do
     placeholder_9(placeholder_8)
   end
 end
