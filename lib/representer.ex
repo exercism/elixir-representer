@@ -9,7 +9,13 @@ defmodule Representer do
       |> File.read!()
       |> represent
 
-    File.write!(code_output, Macro.to_string(represented_ast) <> "\n")
+    formatted_represented_string =
+      represented_ast
+      |> Macro.to_string()
+      |> Code.format_string!(line_length: 120, force_do_end_blocks: true)
+      |> IO.iodata_to_binary()
+
+    File.write!(code_output, formatted_represented_string <> "\n")
     File.write!(mapping_output, to_string(mapping))
   end
 
