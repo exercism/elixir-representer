@@ -84,6 +84,9 @@ defmodule Representer do
         is_atom(args) ->
           {args, represented}
 
+        args == [] ->
+          {nil, represented}
+
         create in @typespecs ->
           args = Enum.map(args, &remove_type_parentheses/1)
           {args, represented}

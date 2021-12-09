@@ -1,6 +1,6 @@
 defmodule Eighteen do
   # type specifications
-  @type one :: integer
+  @type one() :: integer
   @typep two :: integer() | atom | one | one()
   @opaque three(four) :: [{:ok, four} | {:error, two}]
   @spec five(six, seventeen :: integer()) :: keyword(six) when six: atom()

@@ -26,7 +26,7 @@ defmodule Placeholder_18 do
   @placeholder_24 Placeholder_18
   @placeholder_25 0
   defmodule Placeholder_26 do
-    @type placeholder_14() :: Placeholder_18.Placeholder_26.Placeholder_27.placeholder_15(integer)
+    @type placeholder_14 :: Placeholder_18.Placeholder_26.Placeholder_27.placeholder_15(integer)
     defmodule Placeholder_27 do
       @opaque placeholder_15(placeholder_16) :: [{atom, placeholder_16}]
     end
