@@ -1,30 +1,29 @@
-(
-  defmodule(Placeholder_2) do
-    def(placeholder_3(placeholder_4 \\ "world")) do
-      "Hello, #{placeholder_4}"
-    end
-    @spec(placeholder_1(integer, integer, integer) :: integer)
-    def(placeholder_1(placeholder_5, placeholder_6, placeholder_7)) do
-      placeholder_8 = placeholder_5 + placeholder_6
-      placeholder_8 - placeholder_7
-    end
-    def(placeholder_9(placeholder_10)) do
-      case(placeholder_10) do
-        placeholder_10 when is_bitstring(placeholder_10) ->
-          :string
-        placeholder_10 when is_number(placeholder_10) ->
-          :number
-        placeholder_10 when is_boolean(placeholder_10) ->
-          :boolean
-      end
-    end
-    def(placeholder_11()) do
-      true
+defmodule Placeholder_2 do
+  def placeholder_3(placeholder_4 \\ "world") do
+    "Hello, #{placeholder_4}"
+  end
+
+  @spec placeholder_1(integer(), integer(), integer()) :: integer()
+  def placeholder_1(placeholder_5, placeholder_6, placeholder_7) do
+    placeholder_8 = placeholder_5 + placeholder_6
+    placeholder_8 - placeholder_7
+  end
+
+  def placeholder_9(placeholder_10) do
+    case placeholder_10 do
+      placeholder_10 when is_bitstring(placeholder_10) -> :string
+      placeholder_10 when is_number(placeholder_10) -> :number
+      placeholder_10 when is_boolean(placeholder_10) -> :boolean
     end
   end
-  defmodule(Placeholder_12) do
-    def(placeholder_13) do
-      :test
-    end
+
+  def placeholder_11() do
+    true
   end
-)
+end
+
+defmodule Placeholder_12 do
+  def placeholder_13 do
+    :test
+  end
+end
