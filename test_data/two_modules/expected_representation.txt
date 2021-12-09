@@ -3,7 +3,7 @@ defmodule Placeholder_2 do
     "Hello, #{placeholder_4}"
   end
 
-  @spec placeholder_1(integer(), integer(), integer()) :: integer()
+  @spec placeholder_1(integer, integer, integer) :: integer
   def placeholder_1(placeholder_5, placeholder_6, placeholder_7) do
     placeholder_8 = placeholder_5 + placeholder_6
     placeholder_8 - placeholder_7
