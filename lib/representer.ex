@@ -249,7 +249,7 @@ defmodule Representer do
   end
 
   # module attributes
-  @reserved_attributes ~w(after_compile before_compile behaviour impl compile deprecated doc typedoc dialyzer file moduledoc on_definition vsn derive enforce_keys optional_callbacks)a
+  @reserved_attributes ~w(after_compile before_compile behaviour impl compile deprecated doc typedoc dialyzer external_resource file moduledoc on_definition on_load vsn derive enforce_keys optional_callbacks)a
   defp do_define_placeholders({:@, meta, [{name, meta2, value}]}, represented)
        when name not in @reserved_attributes do
     {:ok, represented, name} = Mapping.get_placeholder(represented, name)
