@@ -33,6 +33,10 @@ defmodule RepresenterTest do
     test "modules" do
       test_directory("modules")
     end
+
+    test "module_attributes" do
+      test_directory("module_attributes")
+    end
   end
 
   defp test_directory(dir) do
