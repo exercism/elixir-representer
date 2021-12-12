@@ -24,7 +24,6 @@ defmodule Representer do
     {ast, mapping} =
       code
       |> Code.string_to_quoted!()
-      # protecting specific nodes
       |> Macro.prewalk(&add_meta/1)
       # gathering type definitions
       |> Macro.prewalk(Mapping.init(), &define_type_placeholders/2)
@@ -32,7 +31,6 @@ defmodule Representer do
     # replacing type definitions
     {ast, mapping} =
       Macro.prewalk(ast, mapping, &use_existing_placeholders/2)
-      # protecting types from further change
       |> Macro.prewalk(&protect_types/1)
 
     # gathering function names and variables
@@ -41,11 +39,8 @@ defmodule Representer do
     ast
     # replacing function names and variables
     |> Macro.prewalk(mapping, &use_existing_placeholders/2)
-    # dropping docs
     |> Macro.prewalk(&drop_docstring/1)
-    # removing added metadata
     |> Macro.prewalk(&drop_line_meta/1)
-    # adding parentheses in pipes
     |> Macro.prewalk(&add_parentheses_in_pipes/1)
   end
 
