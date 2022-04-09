@@ -2,9 +2,11 @@
 
 To understand the purpose of this project in the context of the exercism submission platform, there are a few documents to review:
 
-- [Creating a Representer](https://github.com/exercism/automated-analysis/blob/master/docs/representers/getting-started.md)
-- [Representer Interface](https://github.com/exercism/automated-analysis/blob/master/docs/representers/interface.md)
-- [docker image build and deployment](https://github.com/exercism/automated-analysis/blob/master/docs/docker.md)
+- [Introduction to Representers](https://github.com/exercism/docs/tree/main/building/tooling/representers)
+- [Creating a Representer](https://github.com/exercism/docs/blob/main/building/tooling/representers/creating-from-scratch.md)
+- [The Representer Interface](https://github.com/exercism/docs/blob/main/building/tooling/representers/interface.md)
+- [How to normalize representations for the highest efficiency](https://github.com/exercism/docs/blob/main/building/tooling/representers/normalization.md)
+- [Docker image build and deployment](https://github.com/exercism/docs/blob/main/building/tooling/representers/docker.md)
 
 ## Why
 
