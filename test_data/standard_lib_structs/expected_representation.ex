@@ -1,9 +1,17 @@
 defmodule Placeholder_1 do
   def placeholder_2() do
-    %Time{calendar: Calendar.ISO, hour: 0, microsecond: {0, 0}, minute: 0, second: 0}
+    placeholder_3 = 0
+
+    %Time{
+      calendar: Calendar.ISO,
+      placeholder_3: placeholder_3,
+      microsecond: {0, 0},
+      minute: 0,
+      second: 0
+    }
   end
 
-  def placeholder_3() do
+  def placeholder_4() do
     %Regex{
       opts: "",
       re_pattern:

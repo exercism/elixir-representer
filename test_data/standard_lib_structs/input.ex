@@ -1,8 +1,10 @@
 defmodule Clock do
   def midnight() do
+    hour = 0
+
     %Time{
       calendar: Calendar.ISO,
-      hour: 0,
+      hour: hour,
       microsecond: {0, 0},
       minute: 0,
       second: 0
