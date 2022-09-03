@@ -15,8 +15,11 @@ defmodule Placeholder_1 do
     true
   end
 
-  defguard placeholder_7(placeholder_8) when is_integer(placeholder_8) and rem(placeholder_8, 2) == 0
-  defguardp placeholder_9(placeholder_8) when is_integer(placeholder_8) and rem(placeholder_8, 2) == 1
+  defguard placeholder_7(placeholder_8)
+           when is_integer(placeholder_8) and rem(placeholder_8, 2) == 0
+
+  defguardp placeholder_9(placeholder_8)
+            when is_integer(placeholder_8) and rem(placeholder_8, 2) == 1
 
   def placeholder_10(placeholder_8) when placeholder_7(placeholder_8) do
     true
