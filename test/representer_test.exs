@@ -38,6 +38,10 @@ defmodule RepresenterTest do
       test_directory("module_attributes")
     end
 
+    test "maps" do
+      test_directory("maps")
+    end
+
     test "user_defined_structs" do
       test_directory("user_defined_structs")
     end
