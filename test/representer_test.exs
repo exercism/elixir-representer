@@ -42,6 +42,10 @@ defmodule RepresenterTest do
       test_directory("maps")
     end
 
+    test "keyword_lists" do
+      test_directory("keyword_lists")
+    end
+
     test "user_defined_structs" do
       test_directory("user_defined_structs")
     end
