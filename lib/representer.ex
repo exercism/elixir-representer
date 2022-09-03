@@ -277,6 +277,47 @@ defmodule Representer do
     do_use_existing_placeholders(node, represented)
   end
 
+  # module attributes that hold module or function names inside of key-value pairs.
+  # Note that module attributes that hold module or function names outside of key-value pairs are excluded from this list.
+  @attributes_with_key_value_pairs_that_hold_module_or_function_names ~w(compile optional_callbacks dialyzer)a
+  defp do_use_existing_placeholders({:@, meta, [{name, meta2, value}]}, represented)
+       when name in @attributes_with_key_value_pairs_that_hold_module_or_function_names do
+    handle_list = fn list, represented ->
+      {new_list, new_represented} =
+        Enum.reduce(list, {[], represented}, fn elem, {acc, represented} ->
+          {elem, represented} =
+            case elem do
+              {_, _} -> use_existing_placeholders_on_key_value_pair(elem, represented)
+              _ -> {elem, represented}
+            end
+
+          {[elem | acc], represented}
+        end)
+
+      {Enum.reverse(new_list), new_represented}
+    end
+
+    {value, represented} =
+      case value do
+        # e.g. @dialyzer {:nowarn_function, function_name: 0}
+        [{elem1, elem2}] when is_list(elem2) ->
+          {elem2, represented} = handle_list.(elem2, represented)
+          {[{elem1, elem2}], represented}
+
+        # e.g. @optional_callbacks [function_name1: 0]
+        [elem1] when is_list(elem1) ->
+          {elem1, represented} = handle_list.(elem1, represented)
+          {[elem1], represented}
+
+        value ->
+          {value, represented}
+      end
+
+    {{:@, meta, [{name, meta2, value}]}, represented}
+  end
+
+  # TODO: `when` clauses in specs but only for variable names, not key names in maps
+
   # module names
   defp do_use_existing_placeholders({:__aliases__, meta, module_name}, represented)
        when is_list(module_name) do
@@ -336,17 +377,13 @@ defmodule Representer do
     {{{:., meta2, [{:__MODULE__, meta3, args3}, function_name]}, meta, context}, represented}
   end
 
-  # This should only apply to:
-  # - known module attributes that hold function names
-  # - `when` clauses in specs but only for variable names, not key names in maps
+  defp do_use_existing_placeholders(node, represented),
+    do: {node, represented}
 
-  # replace keys in key value pairs
-  #  defp do_use_existing_placeholders({key, value}, represented) when is_atom(key) do
-  #    key = Mapping.get_existing_placeholder(represented, key) || key
-  #    {{key, value}, represented}
-  #  end
-
-  defp do_use_existing_placeholders(node, represented), do: {node, represented}
+  defp use_existing_placeholders_on_key_value_pair({key, value}, represented) when is_atom(key) do
+    key = Mapping.get_existing_placeholder(represented, key) || key
+    {{key, value}, represented}
+  end
 
   defp drop_docstring({:__block__, meta, children}) do
     children =
