@@ -7,15 +7,15 @@ defmodule Placeholder_2 do
   alias Placeholder_1, as: Placeholder_3
 
   def placeholder_4(placeholder_5) do
-    %Placeholder_1{placeholder_5: placeholder_5, wheels: 4, doors: 2}
+    %Placeholder_1{color: placeholder_5, wheels: 4, doors: 2}
   end
 
   def placeholder_6(placeholder_7, placeholder_5) do
-    %Placeholder_3{placeholder_5: placeholder_5 | placeholder_7}
+    %Placeholder_3{color: placeholder_5 | placeholder_7}
   end
 
   def placeholder_8(placeholder_5) do
-    %{placeholder_5: placeholder_5, wheels: 4, doors: 2}
+    %{color: placeholder_5, wheels: 4, doors: 2}
   end
 
   def placeholder_9() do

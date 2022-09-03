@@ -336,11 +336,15 @@ defmodule Representer do
     {{{:., meta2, [{:__MODULE__, meta3, args3}, function_name]}, meta, context}, represented}
   end
 
+  # This should only apply to:
+  # - known module attributes that hold function names
+  # - `when` clauses in specs but only for variable names, not key names in maps
+
   # replace keys in key value pairs
-  defp do_use_existing_placeholders({key, value}, represented) when is_atom(key) do
-    key = Mapping.get_existing_placeholder(represented, key) || key
-    {{key, value}, represented}
-  end
+  #  defp do_use_existing_placeholders({key, value}, represented) when is_atom(key) do
+  #    key = Mapping.get_existing_placeholder(represented, key) || key
+  #    {{key, value}, represented}
+  #  end
 
   defp do_use_existing_placeholders(node, represented), do: {node, represented}
 

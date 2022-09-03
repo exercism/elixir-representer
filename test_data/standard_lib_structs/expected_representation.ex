@@ -1,14 +1,7 @@
 defmodule Placeholder_1 do
   def placeholder_2() do
     placeholder_3 = 0
-
-    %Time{
-      calendar: Calendar.ISO,
-      placeholder_3: placeholder_3,
-      microsecond: {0, 0},
-      minute: 0,
-      second: 0
-    }
+    %Time{calendar: Calendar.ISO, hour: placeholder_3, microsecond: {0, 0}, minute: 0, second: 0}
   end
 
   def placeholder_4() do
