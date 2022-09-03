@@ -37,6 +37,10 @@ defmodule RepresenterTest do
     test "module_attributes" do
       test_directory("module_attributes")
     end
+
+    test "user_defined_structs" do
+      test_directory("user_defined_structs")
+    end
   end
 
   defp test_directory(dir) do
