@@ -125,8 +125,11 @@ defmodule Representer do
 
     conditions = Macro.prewalk(conditions, &remove_type_parentheses/1)
     # typespecs may receive variable types as arguments if they are constrained by :when
-    vars = Enum.map(conditions, fn {var, _type} -> var end)
-    {:ok, represented, _} = Mapping.get_placeholder(represented, vars)
+    {conditions, represented} =
+      Enum.map_reduce(conditions, represented, fn {var, type}, represented ->
+        {:ok, represented, var} = Mapping.get_placeholder(represented, var)
+        {{var, type}, represented}
+      end)
 
     definition = Macro.prewalk(definition, &remove_type_parentheses/1)
     meta = Keyword.put(meta, :visited?, true)
@@ -283,18 +286,16 @@ defmodule Representer do
   defp do_use_existing_placeholders({:@, meta, [{name, meta2, value}]}, represented)
        when name in @attributes_with_key_value_pairs_that_hold_module_or_function_names do
     handle_list = fn list, represented ->
-      {new_list, new_represented} =
-        Enum.reduce(list, {[], represented}, fn elem, {acc, represented} ->
-          {elem, represented} =
-            case elem do
-              {_, _} -> use_existing_placeholders_on_key_value_pair(elem, represented)
-              _ -> {elem, represented}
-            end
+      Enum.map_reduce(list, represented, fn elem, represented ->
+        case elem do
+          {key, value} ->
+            key = Mapping.get_existing_placeholder(represented, key) || key
+            {{key, value}, represented}
 
-          {[elem | acc], represented}
-        end)
-
-      {Enum.reverse(new_list), new_represented}
+          _ ->
+            {elem, represented}
+        end
+      end)
     end
 
     {value, represented} =
@@ -315,8 +316,6 @@ defmodule Representer do
 
     {{:@, meta, [{name, meta2, value}]}, represented}
   end
-
-  # TODO: `when` clauses in specs but only for variable names, not key names in maps
 
   # module names
   defp do_use_existing_placeholders({:__aliases__, meta, module_name}, represented)
@@ -379,11 +378,6 @@ defmodule Representer do
 
   defp do_use_existing_placeholders(node, represented),
     do: {node, represented}
-
-  defp use_existing_placeholders_on_key_value_pair({key, value}, represented) when is_atom(key) do
-    key = Mapping.get_existing_placeholder(represented, key) || key
-    {{key, value}, represented}
-  end
 
   defp drop_docstring({:__block__, meta, children}) do
     children =
