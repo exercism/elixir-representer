@@ -53,6 +53,10 @@ defmodule RepresenterTest do
     test "standard_lib_structs" do
       test_directory("standard_lib_structs")
     end
+
+    test "import_order" do
+      test_directory("import_order")
+    end
   end
 
   defp test_directory(dir) do

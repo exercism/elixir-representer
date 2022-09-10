@@ -29,9 +29,9 @@ defmodule Placeholder_5.Placeholder_6.Placeholder_7 do
   end
 
   defmodule Placeholder_11 do
-    alias Placeholder_5.Placeholder_6.Placeholder_7.{Placeholder_10, Placeholder_11}
-    alias Placeholder_8.Placeholder_7.Placeholder_11, as: Placeholder_12
+    alias Placeholder_5.Placeholder_6.Placeholder_7.{Placeholder_11, Placeholder_10}
     alias Placeholder_8.Placeholder_7, as: Placeholder_2
+    alias Placeholder_8.Placeholder_7.Placeholder_11, as: Placeholder_12
     alias External, as: Placeholder_13
 
     def placeholder_14 do
