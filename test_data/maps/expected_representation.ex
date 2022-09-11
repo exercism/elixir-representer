@@ -6,6 +6,6 @@ defmodule Placeholder_1 do
 
   def placeholder_4(placeholder_5) do
     placeholder_6 = placeholder_5.minute + 1
-    %{minute: placeholder_6 | placeholder_5}
+    %{placeholder_5 | hour: placeholder_5.hour, minute: placeholder_6}
   end
 end
