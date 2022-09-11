@@ -5,7 +5,7 @@ defmodule Placeholder_1 do
   end
 
   def placeholder_4() do
-    %Regex{
+    placeholder_5 = %Regex{
       opts: "",
       re_pattern:
         {:re_pattern, 0, 0, 0,
@@ -15,5 +15,7 @@ defmodule Placeholder_1 do
       re_version: {"8.44 2020-02-12", :little},
       source: "\\d\\d:\\d\\d:\\d\\d"
     }
+
+    %Regex{placeholder_5 | opts: "i", re_version: {"8.44 2020-02-14", :little}}
   end
 end

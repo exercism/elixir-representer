@@ -11,7 +11,7 @@ defmodule VroomVroom do
   end
 
   def repaint(car, color) do
-    %Automobile{color: color | car}
+    %Automobile{car | driving_licence: car.driving_licence, color: color}
   end
 
   def fake_create(color) do
@@ -21,7 +21,8 @@ defmodule VroomVroom do
 
   def authorize_driver() do
     %__MODULE__{
-      driving_licence: "I can totally drive a car"
+      driving_licence: "I can totally drive a car",
+      cars: nil
     }
   end
 end
