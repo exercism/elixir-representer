@@ -26,6 +26,7 @@ defmodule Representer do
       |> Code.string_to_quoted!()
       |> Macro.prewalk(&add_meta/1)
       |> Macro.prewalk(&order_imports/1)
+      |> Macro.prewalk(&order_map_and_struct_keys/1)
       # gathering type definitions
       |> Macro.prewalk(Mapping.init(), &define_type_placeholders/2)
 
@@ -83,6 +84,12 @@ defmodule Representer do
   defp order_aliases({{:., _, [{:__aliases__, _, atoms}, :{}]}, _, aliases}) do
     {atoms, aliases |> Enum.map(&order_aliases/1) |> Enum.sort()}
   end
+
+  defp order_map_and_struct_keys({:%{}, meta, [{:|, meta2, [map, args]}]}),
+    do: {:%{}, meta, [{:|, meta2, [map, Enum.sort(args)]}]}
+
+  defp order_map_and_struct_keys({:%{}, meta, args}), do: {:%{}, meta, Enum.sort(args)}
+  defp order_map_and_struct_keys(node), do: node
 
   defp define_type_placeholders({_, meta, _} = node, represented) do
     if meta[:visited?] do

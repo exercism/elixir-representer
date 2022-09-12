@@ -3,14 +3,14 @@ defmodule Clock do
     hour = 0
 
     %{
-      hour: hour,
       minute: 0,
+      hour: hour,
       second: 0
     }
   end
 
   def tick(clock) do
     minute = clock.minute + 1
-    %{minute: minute | clock}
+    %{clock | minute: minute, hour: clock.hour}
   end
 end
