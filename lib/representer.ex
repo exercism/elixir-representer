@@ -77,6 +77,7 @@ defmodule Representer do
 
   defp sort_multi_aliases(node), do: node
 
+  defp order_aliases(erlang_module) when is_atom(erlang_module), do: erlang_module
   defp order_aliases({:__aliases__, _, atoms}), do: atoms
 
   defp order_aliases({{:., _, [{:__aliases__, _, atoms}, :{}]}, _, aliases}) do

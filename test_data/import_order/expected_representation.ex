@@ -1,4 +1,5 @@
 defmodule Placeholder_1 do
+  alias :math
   alias X.{K, K.T, Y}
   alias X.{Z}
   alias X.Y.{A, Z}
@@ -10,6 +11,7 @@ defmodule Placeholder_1 do
   alias Z
   use Z
   require C
+  import :random, only: [uniform: 0]
   import A
   import B, only: [b: 0]
   import D

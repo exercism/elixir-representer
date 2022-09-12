@@ -2,6 +2,7 @@ defmodule Foo do
   alias X.Y.{Z, A}
   alias X.Y.{A, Z}
   import D
+  import :random, only: [uniform: 0]
   alias X.Y.Z
   alias Banana, as: Ba
   use Z
@@ -9,6 +10,7 @@ defmodule Foo do
   alias X.Y
   alias X.{Z}
   alias Z
+  alias :math
   require C
   alias X.{Y, K.T, K}
   import B, only: [b: 0]
