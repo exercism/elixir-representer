@@ -25,6 +25,7 @@ defmodule Representer do
       code
       |> Code.string_to_quoted!()
       |> Macro.prewalk(&add_meta/1)
+      |> Macro.prewalk(&order_imports/1)
       |> Macro.prewalk(&order_map_and_struct_keys/1)
       # gathering type definitions
       |> Macro.prewalk(Mapping.init(), &define_type_placeholders/2)
@@ -52,6 +53,37 @@ defmodule Representer do
   end
 
   defp add_meta(node), do: node
+
+  defp order_imports({:__block__, meta, lines}) do
+    {imports, rest} = Enum.split_while(lines, &import_statement?/1)
+    imports = imports |> Enum.map(&sort_multi_aliases/1) |> Enum.sort_by(&do_order_imports/1)
+    {:__block__, meta, imports ++ rest}
+  end
+
+  defp order_imports(node), do: node
+
+  @import_statements ~w(alias use require import)a
+  defp import_statement?({name, _, _}) when name in @import_statements, do: true
+  defp import_statement?(_), do: false
+
+  @import_statement_order @import_statements |> Enum.with_index() |> Map.new()
+  defp do_order_imports({name, _, [aliases | _opts]}) do
+    {@import_statement_order[name], order_aliases(aliases)}
+  end
+
+  defp sort_multi_aliases({name, meta, [{{:., meta2, [common, :{}]}, meta3, aliases}]}) do
+    aliases = Enum.sort_by(aliases, &order_aliases/1)
+    {name, meta, [{{:., meta2, [common, :{}]}, meta3, aliases}]}
+  end
+
+  defp sort_multi_aliases(node), do: node
+
+  defp order_aliases(erlang_module) when is_atom(erlang_module), do: erlang_module
+  defp order_aliases({:__aliases__, _, atoms}), do: atoms
+
+  defp order_aliases({{:., _, [{:__aliases__, _, atoms}, :{}]}, _, aliases}) do
+    {atoms, aliases |> Enum.map(&order_aliases/1) |> Enum.sort()}
+  end
 
   defp order_map_and_struct_keys({:%{}, meta, [{:|, meta2, [map, args]}]}),
     do: {:%{}, meta, [{:|, meta2, [map, Enum.sort(args)]}]}
