@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.15.0-erlang-26.0.1-debian-buster-20230612 as builder
+FROM hexpm/elixir:1.15.2-erlang-26.0.2-debian-bookworm-20230612 as builder
 
 # Install SSL ca certificates
 RUN apt-get update && \
@@ -14,7 +14,7 @@ COPY . .
 # Builds an escript bin/elixir_representer
 RUN ./bin/build.sh
 
-FROM hexpm/elixir:1.15.0-erlang-26.0.1-debian-buster-20230612
+FROM hexpm/elixir:1.15.2-erlang-26.0.2-debian-bookworm-20230612
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /elixir-representer/bin /opt/representer/bin
 RUN apt-get update && \
