@@ -63,7 +63,7 @@ defmodule RepresenterTest do
     output_directory = Path.join(["./test_output", dir])
     File.mkdir_p!(output_directory)
 
-    input = Path.join(["./test_data", dir, "input.ex"])
+    input = Path.join(["./test_data", dir, "lib", "input.ex"])
     assert {:ok, _} = input |> File.read!() |> Code.string_to_quoted()
 
     expected_representation = Path.join(["./test_data", dir, "expected_representation.ex"])
