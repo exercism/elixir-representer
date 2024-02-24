@@ -1,5 +1,6 @@
 defmodule Placeholder_1 do
   defstruct [:wheels, :doors, :color]
+  @type t :: %__MODULE__{}
 end
 
 defmodule Placeholder_2 do
