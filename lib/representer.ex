@@ -197,7 +197,8 @@ defmodule Representer do
     {{:., meta, path}, meta2, args}
   end
 
-  defp remove_type_parentheses({type, meta, args}) when args == [] or is_atom(args) do
+  defp remove_type_parentheses({type, meta, args})
+       when type != :%{} and (args == [] or is_atom(args)) do
     meta = Keyword.put(meta, :type?, true)
     {type, meta, nil}
   end
