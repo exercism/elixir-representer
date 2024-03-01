@@ -1,5 +1,6 @@
 defmodule Car do
   defstruct [:wheels, :doors, :color]
+  @type t :: %__MODULE__{}
 end
 
 defmodule VroomVroom do
