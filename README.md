@@ -31,6 +31,10 @@ The role of this service is to take a code submission, and normalize it in the f
 
 This is the entrypoint for an escript to process the relevant files from the command line.
 
-## Docker
+## Git submodule
 
-> Work to be done
+Some of the tests depend on the `/elixir` git submodule. Run `git submodule update --init --recursive` once after cloning this repo to also get the submodule.
+
+To check at which commit the submodule is, run `git submodule`. To update the submodule to the newest commit, run `git submodule update --remote --merge`.
+
+The submodule is used only by the tests.
