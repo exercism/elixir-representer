@@ -27,5 +27,4 @@ representer-*.tar
 /test_output
 representation.txt
 mapping.json
-
 tmp-exercises
