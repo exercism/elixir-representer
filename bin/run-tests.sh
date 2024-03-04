@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Synopsis:
-# Test the representer by running it against a predefined set of solutions 
+# Test the representer by running it against a predefined set of solutions
 # with an expected output.
 
 # Output:
@@ -14,7 +14,7 @@
 exit_code=0
 
 # We need to copy the fixtures to a temp directory as the user
-# running within the Docker container does not have permissions 
+# running within the Docker container does not have permissions
 # to write to the test_data directory
 test_data_dir="test_data"
 tmp_test_data_dir="/tmp/test_data"

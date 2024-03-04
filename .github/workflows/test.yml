@@ -1,4 +1,4 @@
-name: Smoke Test
+name: Test
 
 on: [push, pull_request, workflow_dispatch]
 
@@ -28,6 +28,10 @@ jobs:
       - name: Run Tests
         run: |
           mix test
+
+      - name: Run representer on example solutions on all exercises
+        run: |
+          ./bin/run-all-exercises
 
   build_and_test_on_docker:
     runs-on: ubuntu-22.04
