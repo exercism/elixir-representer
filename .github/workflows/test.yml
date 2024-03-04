@@ -10,10 +10,10 @@ jobs:
       image: hexpm/elixir:1.16.0-erlang-26.2.1-debian-bookworm-20231009
 
     steps:
-      - name: Install git
+      - name: Install git & jq
         run: |
           apt-get update
-          apt-get install -y git
+          apt-get install -y git jq
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
@@ -36,7 +36,8 @@ jobs:
 
       - name: Run representer on example solutions on all exercises
         run: |
-          ./bin/run-all-exercises
+          ./bin/build.sh
+          ./bin/run-all-exercises.sh
 
   build_and_test_on_docker:
     runs-on: ubuntu-22.04

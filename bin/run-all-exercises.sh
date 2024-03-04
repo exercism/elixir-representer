@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 exercise_dir="elixir/exercises"
 tmp_exercise_dir="tmp-exercises"
