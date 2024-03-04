@@ -10,6 +10,11 @@ jobs:
       image: hexpm/elixir:1.16.0-erlang-26.2.1-debian-bookworm-20231009
 
     steps:
+      - name: Install git
+        run: |
+          apt-get update
+          apt-get install -y git
+
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
         with:
           submodules: recursive
