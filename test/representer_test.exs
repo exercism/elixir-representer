@@ -57,6 +57,10 @@ defmodule RepresenterTest do
     test "import_order" do
       test_directory("import_order")
     end
+
+    test "function_references" do
+      test_directory("function_references")
+    end
   end
 
   defp test_directory(dir) do
