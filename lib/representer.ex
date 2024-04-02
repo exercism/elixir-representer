@@ -295,15 +295,29 @@ defmodule Representer do
     {node, represented}
   end
 
+  # marking function references so that they don't get mistaken for variables
+  defp do_define_placeholders(
+         {:&, meta, [{:/, meta2, [{name, meta3, context3}, arity]}]},
+         represented
+       )
+       when is_atom(name) and is_integer(arity) do
+    meta3 = Keyword.put(meta3, :not_a_variable?, true)
+    {{:&, meta, [{:/, meta2, [{name, meta3, context3}, arity]}]}, represented}
+  end
+
   # variables
   # https://elixir-lang.org/getting-started/meta/quote-and-unquote.html
   # "The third element is either a list of arguments for the function call or an atom. When this element is an atom, it means the tuple represents a variable."
   @special_var_names [:__CALLER__, :__DIR__, :__ENV__, :__MODULE__, :__STACKTRACE__, :..., :_]
   defp do_define_placeholders({atom, meta, context}, represented)
        when is_atom(atom) and is_atom(context) and atom not in @special_var_names do
-    {:ok, represented, mapped_term} = Mapping.get_placeholder(represented, atom)
+    if meta[:not_a_variable?] do
+      {{atom, meta, context}, represented}
+    else
+      {:ok, represented, mapped_term} = Mapping.get_placeholder(represented, atom)
 
-    {{mapped_term, meta, context}, represented}
+      {{mapped_term, meta, context}, represented}
+    end
   end
 
   defp do_define_placeholders(node, represented), do: {node, represented}
