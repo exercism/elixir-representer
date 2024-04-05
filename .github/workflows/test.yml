@@ -1,6 +1,10 @@
-name: Smoke Test
+name: Test
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build_and_test:
@@ -10,7 +14,19 @@ jobs:
       image: hexpm/elixir:1.16.0-erlang-26.2.1-debian-bookworm-20231009
 
     steps:
+      - name: Install git & jq
+        run: |
+          apt-get update
+          apt-get install -y git jq
+
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633
+        with:
+          submodules: recursive
+
+      - name: Update submodules
+        run: |
+          git config --global --add safe.directory /__w/elixir-representer/elixir-representer
+          git submodule update --recursive --remote
 
       - name: Install / Build Dependencies
         run: |
@@ -21,6 +37,11 @@ jobs:
       - name: Run Tests
         run: |
           mix test
+
+      - name: Run representer on example solutions on all exercises
+        run: |
+          ./bin/build.sh
+          ./bin/run-all-exercises.sh
 
   build_and_test_on_docker:
     runs-on: ubuntu-22.04
