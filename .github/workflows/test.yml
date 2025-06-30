@@ -8,7 +8,7 @@ on:
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     container:
       image: hexpm/elixir:1.18.1-erlang-27.2-debian-bookworm-20241223
@@ -44,7 +44,7 @@ jobs:
           ./bin/run-all-exercises.sh
 
   build_and_test_on_docker:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
